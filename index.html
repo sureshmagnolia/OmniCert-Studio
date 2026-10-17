@@ -1,0 +1,3675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniCert Studio - Universal Bulk & Individual Certificate Designer</title>
+    <!-- Premium Academic & Display Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           ROOT DESIGN SYSTEM & THEMES
+           ========================================================================== */
+        :root {
+            /* Application UI Colors */
+            --ui-bg: #0b1120;
+            --ui-surface: #131d31;
+            --ui-card: #1c273e;
+            --ui-border: #283754;
+            --ui-border-light: #384c72;
+            --ui-text: #f1f5f9;
+            --ui-text-muted: #94a3b8;
+            --ui-accent: #38bdf8;
+            --ui-accent-gold: #fbbf24;
+            --ui-accent-green: #34d399;
+            --ui-danger: #f87171;
+            --ui-radius-sm: 6px;
+            --ui-radius: 10px;
+            --ui-radius-lg: 16px;
+
+            /* Active Certificate Color Variables (Default: Model 1 Classic Heritage) */
+            --cert-primary: #0b2240;      /* Deep Navy */
+            --cert-secondary: #c5a880;    /* Antique Royal Gold */
+            --cert-secondary-dark: #9b7a4c;
+            --cert-accent: #1e3a8a;
+            --cert-text: #1e293b;
+            --cert-text-light: #52637a;
+            --cert-bg: #fffdf9;           /* Cream Parchment */
+            --cert-border: #0b2240;
+            --cert-inner-border: #c5a880;
+            
+            /* Dimensions (Dynamic via paper size and orientation) */
+            --cert-width: 1050px;
+            --cert-height: 742px;
+            --cert-scale: 1;
+
+            /* Typography */
+            --cert-font-heading: 'Cinzel', serif;
+            --cert-font-body: 'Montserrat', sans-serif;
+            --cert-font-name: 'Playfair Display', serif;
+            --cert-font-script: 'Alex Brush', cursive;
+        }
+
+        /* --------------------------------------------------------------------------
+           12 LUXURY CERTIFICATE THEMES
+           -------------------------------------------------------------------------- */
+        /* 1. Classic Heritage */
+        .theme-classic-heritage {
+            --cert-primary: #0b2240;
+            --cert-secondary: #c5a880;
+            --cert-secondary-dark: #9b7a4c;
+            --cert-accent: #1e3a8a;
+            --cert-text: #1e293b;
+            --cert-text-light: #52637a;
+            --cert-bg: #fffdf9;
+            --cert-border: #0b2240;
+            --cert-inner-border: #c5a880;
+        }
+
+        /* 2. Modern Minimalist */
+        .theme-modern-minimalist {
+            --cert-primary: #0f172a;
+            --cert-secondary: #94a3b8;
+            --cert-secondary-dark: #64748b;
+            --cert-accent: #334155;
+            --cert-text: #1e293b;
+            --cert-text-light: #64748b;
+            --cert-bg: #ffffff;
+            --cert-border: #cbd5e1;
+            --cert-inner-border: transparent;
+        }
+        .theme-modern-minimalist .corner-ornament { display: none !important; }
+        .theme-modern-minimalist .cert-border-outer { border: 1px solid #cbd5e1; padding: 18px; }
+        .theme-modern-minimalist .cert-border-inner { border: 1px solid #e2e8f0; background-image: none !important; }
+
+        /* 3. Royal Emerald */
+        .theme-royal-emerald {
+            --cert-primary: #064e3b;
+            --cert-secondary: #d97706;
+            --cert-secondary-dark: #b45309;
+            --cert-accent: #047857;
+            --cert-text: #14532d;
+            --cert-text-light: #374151;
+            --cert-bg: #f0fdf4;
+            --cert-border: #064e3b;
+            --cert-inner-border: #d97706;
+        }
+
+        /* 4. Elite Imperial (Parchment) */
+        .theme-elite-imperial {
+            --cert-primary: #451a03;
+            --cert-secondary: #d97706;
+            --cert-secondary-dark: #92400e;
+            --cert-accent: #78350f;
+            --cert-text: #78350f;
+            --cert-text-light: #854d0e;
+            --cert-bg: #fef3c7;
+            --cert-border: #78350f;
+            --cert-inner-border: #b45309;
+        }
+        .theme-elite-imperial .cert-border-outer {
+            border: 6px double var(--cert-secondary);
+            box-shadow: inset 0 0 35px rgba(120, 53, 15, 0.12);
+        }
+
+        /* 5. Crimson Presidential */
+        .theme-crimson-presidential {
+            --cert-primary: #7f1d1d;
+            --cert-secondary: #94a3b8;
+            --cert-secondary-dark: #475569;
+            --cert-accent: #991b1b;
+            --cert-text: #450a0a;
+            --cert-text-light: #64748b;
+            --cert-bg: #faf5f5;
+            --cert-border: #7f1d1d;
+            --cert-inner-border: #94a3b8;
+        }
+
+        /* 6. Geometric Tech (Cyan / Dark) */
+        .theme-geometric-tech {
+            --cert-primary: #0f172a;
+            --cert-secondary: #0284c7;
+            --cert-secondary-dark: #0369a1;
+            --cert-accent: #38bdf8;
+            --cert-text: #0f172a;
+            --cert-text-light: #475569;
+            --cert-bg: #f8fafc;
+            --cert-border: #0284c7;
+            --cert-inner-border: #bae6fd;
+        }
+        .theme-geometric-tech .cert-border-outer {
+            border: 2px solid var(--cert-secondary);
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.05) 0%, transparent 100%);
+        }
+
+        /* 7. Vintage Monogram (Purple & Gold) */
+        .theme-vintage-monogram {
+            --cert-primary: #2e1065;
+            --cert-secondary: #c084fc;
+            --cert-secondary-dark: #7e22ce;
+            --cert-accent: #581c87;
+            --cert-text: #3b0764;
+            --cert-text-light: #6b7280;
+            --cert-bg: #faf5ff;
+            --cert-border: #2e1065;
+            --cert-inner-border: #c084fc;
+        }
+        .theme-vintage-monogram .cert-border-inner {
+            border: 1px double var(--cert-secondary);
+            outline: 2px solid var(--cert-primary);
+            outline-offset: -8px;
+        }
+
+        /* 8. Editorial Luxury (Sidebar Accent) */
+        .theme-editorial-luxury {
+            --cert-primary: #111827;
+            --cert-secondary: #c5a880;
+            --cert-secondary-dark: #9b7a4c;
+            --cert-accent: #374151;
+            --cert-text: #1f2937;
+            --cert-text-light: #6b7280;
+            --cert-bg: #ffffff;
+            --cert-border: transparent;
+            --cert-inner-border: transparent;
+        }
+        .theme-editorial-luxury .cert-border-outer { border: none; padding: 0; }
+        .theme-editorial-luxury .cert-border-inner {
+            border: none;
+            border-left: 12px solid var(--cert-primary);
+            border-right: 2px solid var(--cert-secondary);
+            background-image: none !important;
+            padding-left: 65px;
+        }
+        .theme-editorial-luxury .corner-ornament { display: none !important; }
+
+        /* 9. Golden Award */
+        .theme-golden-award {
+            --cert-primary: #78350f;
+            --cert-secondary: #f59e0b;
+            --cert-secondary-dark: #b45309;
+            --cert-accent: #d97706;
+            --cert-text: #451a03;
+            --cert-text-light: #78350f;
+            --cert-bg: #fffbeb;
+            --cert-border: #b45309;
+            --cert-inner-border: #f59e0b;
+        }
+        .theme-golden-award .cert-border-inner {
+            background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+            border: 3px double var(--cert-secondary);
+        }
+
+        /* 10. Executive Slate Dark */
+        .theme-executive-dark {
+            --cert-primary: #f8fafc;
+            --cert-secondary: #fbbf24;
+            --cert-secondary-dark: #f59e0b;
+            --cert-accent: #38bdf8;
+            --cert-text: #cbd5e1;
+            --cert-text-light: #94a3b8;
+            --cert-bg: #0f172a;
+            --cert-border: #334155;
+            --cert-inner-border: #fbbf24;
+        }
+        .theme-executive-dark .cert-border-inner {
+            background-image: none !important;
+            border-color: rgba(251, 191, 36, 0.5);
+        }
+        .theme-executive-dark .recipient-name {
+            color: #ffffff !important;
+            border-bottom-color: var(--cert-secondary) !important;
+        }
+        .theme-executive-dark .cert-title {
+            color: #ffffff !important;
+        }
+        .theme-executive-dark .cert-topic-highlight {
+            color: var(--cert-secondary) !important;
+        }
+        .theme-executive-dark .sig-name {
+            color: #ffffff !important;
+        }
+        .theme-executive-dark .sig-line {
+            border-top-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* 11. Sapphire Academic */
+        .theme-sapphire-academic {
+            --cert-primary: #1e3a8a;
+            --cert-secondary: #60a5fa;
+            --cert-secondary-dark: #2563eb;
+            --cert-accent: #1d4ed8;
+            --cert-text: #1e293b;
+            --cert-text-light: #475569;
+            --cert-bg: #f8fafc;
+            --cert-border: #1e3a8a;
+            --cert-inner-border: #93c5fd;
+        }
+
+        /* 12. Botanical Flora */
+        .theme-botanical-flora {
+            --cert-primary: #1b4332;
+            --cert-secondary: #d4a373;
+            --cert-secondary-dark: #b07d4b;
+            --cert-accent: #2d6a4f;
+            --cert-text: #212529;
+            --cert-text-light: #495057;
+            --cert-bg: #fcfbf7;
+            --cert-border: #2d6a4f;
+            --cert-inner-border: #d4a373;
+        }
+
+        /* --------------------------------------------------------------------------
+           BASE LAYOUT & STUDIO UI STYLING
+           -------------------------------------------------------------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--ui-bg);
+            color: var(--ui-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Studio Header */
+        .studio-navbar {
+            background-color: var(--ui-surface);
+            border-bottom: 1px solid var(--ui-border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .studio-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .studio-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .studio-brand h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .studio-brand span.badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--ui-accent);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .studio-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: var(--ui-radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0b1120;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-secondary {
+            background-color: var(--ui-card);
+            color: var(--ui-text);
+            border: 1px solid var(--ui-border);
+        }
+        .btn-secondary:hover {
+            background-color: #24324f;
+            border-color: var(--ui-border-light);
+            color: #ffffff;
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #ffffff;
+        }
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #0369a1, #075985);
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            font-size: 0.78rem;
+        }
+
+        .btn-danger {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .btn-danger:hover {
+            background-color: #ef4444;
+            color: #ffffff;
+        }
+
+        /* Main Workspace Split Layout */
+        .studio-workspace {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 65px);
+            overflow: hidden;
+        }
+
+        /* --------------------------------------------------------------------------
+           SIDEBAR CONTROLS (TABS & ACCORDION)
+           -------------------------------------------------------------------------- */
+        .studio-sidebar {
+            width: 450px;
+            min-width: 430px;
+            background-color: var(--ui-surface);
+            border-right: 1px solid var(--ui-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* Navigation Tabs */
+        .sidebar-tabs {
+            display: flex;
+            background-color: var(--ui-card);
+            border-bottom: 1px solid var(--ui-border);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .sidebar-tabs::-webkit-scrollbar { display: none; }
+
+        .sidebar-tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            background: transparent;
+            border: none;
+            color: var(--ui-text-muted);
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .sidebar-tab-btn:hover {
+            color: var(--ui-text);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        .sidebar-tab-btn.active {
+            color: var(--ui-accent-gold);
+            border-bottom-color: var(--ui-accent-gold);
+            background-color: rgba(251, 191, 36, 0.05);
+        }
+
+        .tab-content-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--ui-border) transparent;
+        }
+        .tab-content-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .tab-content-container::-webkit-scrollbar-thumb {
+            background: var(--ui-border);
+            border-radius: 3px;
+        }
+
+        .tab-pane {
+            display: none;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .tab-pane.active {
+            display: flex;
+        }
+
+        /* Form Groups */
+        .form-section-title {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--ui-accent);
+            font-weight: 700;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--ui-text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        label span.hint {
+            font-size: 0.7rem;
+            color: var(--ui-text-muted);
+            opacity: 0.7;
+            font-weight: normal;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            background-color: var(--ui-card);
+            border: 1px solid var(--ui-border);
+            color: #ffffff;
+            padding: 9px 12px;
+            border-radius: var(--ui-radius-sm);
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--ui-accent-gold);
+            cursor: pointer;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--ui-accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+            background-color: #202c46;
+        }
+
+        /* Auto-populating Datalist Inputs Styling */
+        input[list]::-webkit-calendar-picker-indicator {
+            filter: invert(0.85);
+            cursor: pointer;
+            opacity: 0.85;
+            padding: 3px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        input[list]:hover::-webkit-calendar-picker-indicator,
+        input[list]:focus::-webkit-calendar-picker-indicator {
+            opacity: 1;
+            filter: invert(1);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 75px;
+            line-height: 1.4;
+        }
+
+        .file-upload-box {
+            border: 2px dashed var(--ui-border);
+            border-radius: var(--ui-radius-sm);
+            padding: 12px;
+            text-align: center;
+            background-color: rgba(28, 39, 62, 0.4);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .file-upload-box:hover {
+            border-color: var(--ui-accent);
+            background-color: rgba(56, 189, 248, 0.05);
+        }
+        .file-upload-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .switch-toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--ui-card);
+            padding: 10px 14px;
+            border-radius: var(--ui-radius-sm);
+            border: 1px solid var(--ui-border);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #334155;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--ui-accent-gold);
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+            background-color: #0b1120;
+        }
+
+        /* Mode Selector Pills */
+        .mode-pill-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: var(--ui-bg);
+            border-radius: var(--ui-radius-sm);
+            padding: 4px;
+            gap: 4px;
+            border: 1px solid var(--ui-border);
+        }
+
+        .mode-pill-btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            background: transparent;
+            color: var(--ui-text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .mode-pill-btn.active {
+            background-color: var(--ui-card);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Logo & Signatory Cards */
+        .config-card {
+            background-color: var(--ui-card);
+            border: 1px solid var(--ui-border);
+            border-radius: var(--ui-radius-sm);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+        .config-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .config-card-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--ui-accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-preview-thumb-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+            border: 1px solid var(--ui-border);
+            background-color: rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .logo-preview-thumb-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* --------------------------------------------------------------------------
+           LIVE CANVAS WORKSPACE (RIGHT SIDE)
+           -------------------------------------------------------------------------- */
+        .studio-canvas-area {
+            flex: 1;
+            background-color: #070b14;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Canvas Floating Toolbar */
+        .canvas-toolbar {
+            background-color: rgba(19, 29, 49, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--ui-border);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .canvas-info-pills {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--ui-text-muted);
+        }
+
+        .info-pill {
+            background-color: var(--ui-card);
+            border: 1px solid var(--ui-border);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .canvas-zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .zoom-btn {
+            background-color: var(--ui-card);
+            border: 1px solid var(--ui-border);
+            color: var(--ui-text);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .zoom-btn:hover {
+            background-color: #283754;
+            color: #ffffff;
+        }
+
+        /* Scrollable Canvas Viewport */
+        .canvas-viewport {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            position: relative;
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                radial-gradient(rgba(255, 255, 255, 0.05) 1px, #070b14 1px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        #certificates-render-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+            transform-origin: top center;
+            transition: transform 0.2s ease;
+        }
+
+        /* Batch Navigator Bottom Bar */
+        .batch-navigator-bar {
+            background-color: var(--ui-surface);
+            border-top: 1px solid var(--ui-border);
+            padding: 10px 24px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+        .batch-navigator-bar.visible {
+            display: flex;
+        }
+
+        .batch-stats-badge {
+            font-size: 0.85rem;
+            color: var(--ui-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --------------------------------------------------------------------------
+           CERTIFICATE CONTAINER & GEOMETRY (A4, LETTER, A3 / LANDSCAPE & PORTRAIT)
+           -------------------------------------------------------------------------- */
+        .certificate-wrapper {
+            background-color: var(--cert-bg);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            transition: all 0.3s ease;
+            color: var(--cert-text);
+            font-family: var(--cert-font-body);
+            page-break-after: always;
+            break-after: page;
+        }
+
+        /* Paper Dimensions (Screen Emulation) */
+        .cert-size-a4.cert-orient-landscape { width: 1050px; height: 742px; min-width: 1050px; min-height: 742px; }
+        .cert-size-a4.cert-orient-portrait { width: 742px; height: 1050px; min-width: 742px; min-height: 1050px; }
+        .cert-size-letter.cert-orient-landscape { width: 1056px; height: 816px; min-width: 1056px; min-height: 816px; }
+        .cert-size-letter.cert-orient-portrait { width: 816px; height: 1056px; min-width: 816px; min-height: 1056px; }
+        .cert-size-a3.cert-orient-landscape { width: 1190px; height: 841px; min-width: 1190px; min-height: 841px; }
+        .cert-size-a3.cert-orient-portrait { width: 841px; height: 1190px; min-width: 841px; min-height: 1190px; }
+
+        /* Certificate Outer & Inner Borders */
+        .cert-border-outer {
+            width: 100%;
+            height: 100%;
+            border: 4px solid var(--cert-border);
+            padding: 8px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cert-border-inner {
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--cert-inner-border);
+            padding: 34px 48px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--cert-bg);
+            background-image: 
+                radial-gradient(var(--cert-secondary) 0.5px, transparent 0.5px),
+                radial-gradient(var(--cert-secondary) 0.5px, var(--cert-bg) 0.5px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
+            background-blend-mode: multiply;
+            z-index: 1;
+        }
+
+        /* Text Alignment Options */
+        .align-center { text-align: center; }
+        .align-center .cert-header, .align-center .cert-body-content { align-items: center; text-align: center; }
+        .align-left { text-align: left; }
+        .align-left .cert-header, .align-left .cert-body-content { align-items: flex-start; text-align: left; }
+        .align-left .recipient-name { align-self: flex-start; }
+
+        /* Decorative Corner Ornaments */
+        .corner-ornament {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-color: var(--cert-secondary-dark);
+            border-style: solid;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .corner-top-left { top: 16px; left: 16px; border-width: 3px 0 0 3px; }
+        .corner-top-right { top: 16px; right: 16px; border-width: 3px 3px 0 0; }
+        .corner-bottom-left { bottom: 16px; left: 16px; border-width: 0 0 3px 3px; }
+        .corner-bottom-right { bottom: 16px; right: 16px; border-width: 0 3px 3px 0; }
+
+        .corner-bracket-accent {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--cert-secondary);
+        }
+        .corner-top-left .corner-bracket-accent { top: 0; left: 0; }
+        .corner-top-right .corner-bracket-accent { top: 0; right: 0; }
+        .corner-bottom-left .corner-bracket-accent { bottom: 0; left: 0; }
+        .corner-bottom-right .corner-bracket-accent { bottom: 0; right: 0; }
+
+        /* Security Guilloche Pattern Border */
+        .has-guilloche-border .cert-border-inner {
+            box-shadow: inset 0 0 0 4px var(--cert-primary), inset 0 0 0 8px rgba(197, 168, 128, 0.3);
+        }
+
+        /* Watermarks (Background Center) */
+        .cert-watermark-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cert-watermark-item img, .cert-watermark-item svg {
+            max-width: 480px;
+            max-height: 480px;
+            object-fit: contain;
+        }
+
+        /* --------------------------------------------------------------------------
+           CERTIFICATE HEADER & LOGO POSITION SLOTS
+           -------------------------------------------------------------------------- */
+        .cert-header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .cert-header-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            gap: 16px;
+        }
+
+        /* Position Slot Containers */
+        .slot-top-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 0 auto;
+            min-width: 70px;
+            justify-content: flex-start;
+        }
+
+        .slot-top-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 0 auto;
+            min-width: 70px;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .slot-top-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .slot-bottom-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slot-bottom-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 12px;
+        }
+
+        .cert-logo-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cert-logo-item img {
+            display: block;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06));
+        }
+
+        .cert-id-tag {
+            position: absolute;
+            right: 0;
+            top: -16px;
+            font-size: 0.68rem;
+            font-family: 'Montserrat', monospace;
+            color: var(--cert-text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .institution-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .align-left .institution-details {
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .inst-title {
+            font-family: var(--cert-font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            color: var(--cert-primary);
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .inst-accreditation {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--cert-secondary-dark);
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        .inst-department {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--cert-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 6px;
+            padding: 3px 18px;
+            border-top: 1px solid rgba(197, 168, 128, 0.4);
+            border-bottom: 1px solid rgba(197, 168, 128, 0.4);
+        }
+
+        /* Certificate Title Banner */
+        .cert-title-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .align-left .cert-title-container {
+            align-items: flex-start;
+        }
+
+        .cert-title {
+            font-family: var(--cert-font-heading);
+            font-size: 2.1rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--cert-primary);
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 6px;
+            line-height: 1.1;
+        }
+
+        .cert-title-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .divider-line {
+            flex: 1;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--cert-secondary), transparent);
+        }
+        .divider-diamond {
+            width: 7px;
+            height: 7px;
+            background-color: var(--cert-secondary);
+            transform: rotate(45deg);
+        }
+
+        /* --------------------------------------------------------------------------
+           CERTIFICATE BODY & RECIPIENT SECTION
+           -------------------------------------------------------------------------- */
+        .cert-body-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+            margin: auto 0;
+        }
+
+        .cert-presentation-intro {
+            font-size: 0.95rem;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            color: var(--cert-text-light);
+            letter-spacing: 0.5px;
+        }
+
+        .recipient-name-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin: 4px 0;
+        }
+        .align-left .recipient-name-block {
+            align-items: flex-start;
+        }
+
+        .recipient-name {
+            font-family: var(--cert-font-name);
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: var(--cert-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--cert-secondary);
+            padding: 0 30px 4px 30px;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        .recipient-affiliation {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--cert-secondary-dark);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .cert-narrative-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--cert-text);
+            max-width: 900px;
+            margin: 0 auto;
+            letter-spacing: 0.3px;
+        }
+        .align-left .cert-narrative-text {
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .cert-role-badge {
+            font-weight: 700;
+            color: var(--cert-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cert-topic-highlight {
+            font-weight: 700;
+            color: var(--cert-primary);
+            font-family: var(--cert-font-heading);
+            letter-spacing: 0.5px;
+        }
+
+        /* --------------------------------------------------------------------------
+           CERTIFICATE FOOTER & SIGNATURES SECTION
+           -------------------------------------------------------------------------- */
+        .cert-footer-row {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            z-index: 2;
+            margin-top: 14px;
+            gap: 16px;
+        }
+
+        /* Official Seal / QR Area */
+        .cert-seal-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .official-medal-seal {
+            width: 76px;
+            height: 76px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .medal-star-svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--cert-secondary);
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+        }
+        .medal-inner-text {
+            position: absolute;
+            font-family: 'Cinzel', serif;
+            font-size: 0.58rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            color: var(--cert-primary);
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+        }
+
+        .cert-qr-box {
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(197, 168, 128, 0.4);
+            padding: 3px;
+            background: #ffffff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cert-qr-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Signatures Grid */
+        .signatures-grid {
+            flex: 1;
+            display: grid;
+            gap: 18px;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+        .sig-cols-1 { grid-template-columns: 1fr; max-width: 200px; margin-left: auto; }
+        .sig-cols-2 { grid-template-columns: repeat(2, 1fr); max-width: 480px; margin-left: auto; }
+        .sig-cols-3 { grid-template-columns: repeat(3, 1fr); max-width: 720px; margin-left: auto; }
+        .sig-cols-4 { grid-template-columns: repeat(4, 1fr); max-width: 820px; }
+        .sig-cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+        .signature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .sig-img-container {
+            height: 44px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+        .sig-img {
+            max-height: 42px;
+            max-width: 140px;
+            object-fit: contain;
+        }
+        .sig-cursive-font {
+            font-family: var(--cert-font-script);
+            font-size: 1.8rem;
+            color: var(--cert-primary);
+            line-height: 1;
+        }
+
+        .sig-line {
+            width: 135px;
+            border-top: 1.5px solid rgba(11, 34, 64, 0.3);
+            margin-bottom: 6px;
+        }
+
+        .sig-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--cert-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            line-height: 1.2;
+        }
+
+        .sig-role {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--cert-secondary-dark);
+            text-transform: uppercase;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .sig-inst {
+            font-size: 0.62rem;
+            color: var(--cert-text-light);
+            margin-top: 1px;
+        }
+
+        /* Bottom Accent Stripe */
+        .cert-bottom-accent-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--cert-primary) 0%, var(--cert-secondary) 50%, var(--cert-primary) 100%);
+        }
+
+        /* Bottom Certificate ID & Metadata Bar */
+        .cert-bottom-meta-bar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 6px;
+            border-top: 1px dashed rgba(197, 168, 128, 0.25);
+            z-index: 2;
+        }
+
+        .cert-id-bottom {
+            font-size: 0.72rem;
+            font-family: 'Montserrat', monospace, sans-serif;
+            color: var(--cert-text-light);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: rgba(197, 168, 128, 0.08);
+            padding: 3px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(197, 168, 128, 0.28);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cert-id-bottom strong {
+            color: var(--cert-primary);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        /* --------------------------------------------------------------------------
+           MODALS (CSV IMPORT, BATCH TABLE)
+           -------------------------------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(7, 11, 20, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal-box {
+            background-color: var(--ui-surface);
+            border: 1px solid var(--ui-border);
+            border-radius: var(--ui-radius-lg);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--ui-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--ui-text-muted);
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close-btn:hover { color: #ffffff; }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-footer {
+            padding: 14px 24px;
+            border-top: 1px solid var(--ui-border);
+            background-color: var(--ui-card);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Spreadsheet-like Table */
+        .data-table-container {
+            overflow-x: auto;
+            max-height: 400px;
+            border: 1px solid var(--ui-border);
+            border-radius: var(--ui-radius-sm);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: var(--ui-card);
+            color: var(--ui-accent);
+            padding: 10px 12px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--ui-border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .data-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--ui-border);
+            color: var(--ui-text);
+        }
+        .data-table tr:hover { background-color: rgba(255, 255, 255, 0.03); }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast-item {
+            background-color: var(--ui-card);
+            border: 1px solid var(--ui-accent-gold);
+            color: #ffffff;
+            padding: 12px 18px;
+            border-radius: var(--ui-radius-sm);
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease forwards;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --------------------------------------------------------------------------
+           PRINT MEDIA SPECIFICATIONS
+           -------------------------------------------------------------------------- */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .studio-navbar,
+            .studio-sidebar,
+            .canvas-toolbar,
+            .batch-navigator-bar,
+            .modal-overlay,
+            .toast-container {
+                display: none !important;
+            }
+
+            .studio-workspace, .studio-canvas-area {
+                height: auto !important;
+                background: #ffffff !important;
+                overflow: visible !important;
+            }
+
+            .canvas-viewport {
+                padding: 0 !important;
+                overflow: visible !important;
+                background: none !important;
+            }
+
+            #certificates-render-container {
+                gap: 0 !important;
+                transform: none !important;
+            }
+
+            .certificate-wrapper {
+                box-shadow: none !important;
+                margin: 0 !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Exact Paper Print Bounds */
+            body.print-a4-landscape .certificate-wrapper { width: 297mm !important; height: 210mm !important; min-width: 297mm !important; min-height: 210mm !important; }
+            body.print-a4-portrait .certificate-wrapper { width: 210mm !important; height: 297mm !important; min-width: 210mm !important; min-height: 297mm !important; }
+            body.print-letter-landscape .certificate-wrapper { width: 279.4mm !important; height: 215.9mm !important; min-width: 279.4mm !important; min-height: 215.9mm !important; }
+            body.print-letter-portrait .certificate-wrapper { width: 215.9mm !important; height: 279.4mm !important; min-width: 215.9mm !important; min-height: 279.4mm !important; }
+            body.print-a3-landscape .certificate-wrapper { width: 420mm !important; height: 297mm !important; min-width: 420mm !important; min-height: 297mm !important; }
+            body.print-a3-portrait .certificate-wrapper { width: 297mm !important; height: 420mm !important; min-width: 297mm !important; min-height: 420mm !important; }
+        }
+    </style>
+</head>
+<body class="print-a4-landscape">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="studio-navbar">
+        <div class="studio-brand">
+            <div class="studio-logo-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="6"></circle>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                </svg>
+            </div>
+            <div>
+                <h1>OmniCert Studio <span class="badge">Universal Pro</span></h1>
+            </div>
+        </div>
+
+        <div class="studio-actions">
+            <!-- Table View Modal Trigger -->
+            <button class="btn btn-secondary" onclick="openRecipientsModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"></path><path d="M21 9H3"></path><path d="M21 15H3"></path><path d="M12 3v18"></path></svg>
+                Recipients Table (<span id="total-count-badge">7</span>)
+            </button>
+
+            <!-- Export Image -->
+            <button class="btn btn-secondary" onclick="exportAsImage()" title="Download current certificate as high-res PNG">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                Export PNG
+            </button>
+
+            <!-- Print / PDF Master Button -->
+            <button class="btn btn-primary" onclick="triggerPrint()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span id="print-btn-label">Print / Save PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN STUDIO WORKSPACE -->
+    <div class="studio-workspace">
+
+        <!-- LEFT SIDEBAR: CONFIGURATION PANELS -->
+        <aside class="studio-sidebar">
+            <!-- Sidebar Navigation Tabs -->
+            <div class="sidebar-tabs">
+                <button class="sidebar-tab-btn active" onclick="switchTab('tab-event')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg>
+                    Program
+                </button>
+                <button class="sidebar-tab-btn" onclick="switchTab('tab-logos')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    Logos
+                </button>
+                <button class="sidebar-tab-btn" onclick="switchTab('tab-recipients')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Recipients
+                </button>
+                <button class="sidebar-tab-btn" onclick="switchTab('tab-design')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
+                    Design
+                </button>
+                <button class="sidebar-tab-btn" onclick="switchTab('tab-signatures')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 2 4 4-12 12H6v-4L18 2z"></path><path d="m15 5 4 4"></path></svg>
+                    Signers
+                </button>
+                <button class="sidebar-tab-btn" onclick="switchTab('tab-wording')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Verbiage
+                </button>
+            </div>
+
+            <!-- Tab Content Container -->
+            <div class="tab-content-container">
+
+                <!-- ==================== TAB 1: PROGRAM & INSTITUTION ==================== -->
+                <div class="tab-pane active" id="tab-event">
+                    <div class="form-section-title">
+                        <span>Institution & College Details</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-inst-name">
+                            <span>Institution / College Name</span>
+                            <span class="hint" style="color:var(--ui-accent-gold); font-size:0.68rem;">⚡ Auto-populates dropdowns</span>
+                        </label>
+                        <input type="text" id="input-inst-name" list="college-datalist" value="HERITAGE INSTITUTE OF ADVANCED STUDIES" oninput="appState.event.instName = this.value; updateAutoPopulatingDatalists(); renderCertificate();" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-inst-accreditation">Accreditation / Affiliation Subtitle</label>
+                        <input type="text" id="input-inst-accreditation" value="NAAC A++ Accredited | Affiliated to Apex Central University" oninput="appState.event.accreditation = this.value; renderCertificate();">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-department">
+                            <span>Organizing Department / Body</span>
+                            <span class="hint" style="color:var(--ui-accent-gold); font-size:0.68rem;">⚡ Quick suggestions</span>
+                        </label>
+                        <input type="text" id="input-department" list="department-datalist" value="DEPARTMENT OF BOTANY & IQAC" oninput="appState.event.department = this.value; updateAutoPopulatingDatalists(); renderCertificate();" autocomplete="off">
+                    </div>
+
+                    <div class="form-section-title">
+                        <span>Program & Academic Event</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="select-program-type">Program Type</label>
+                            <select id="select-program-type" onchange="onProgramTypeChange(this.value)">
+                                <option value="Internship Program">Internship Program</option>
+                                <option value="National Seminar">National Seminar</option>
+                                <option value="International Conference">International Conference</option>
+                                <option value="Hands-on Workshop">Hands-on Workshop</option>
+                                <option value="Faculty Development Program (FDP)">Faculty Development Program (FDP)</option>
+                                <option value="National Symposium">National Symposium</option>
+                                <option value="Skill Training Program">Skill Training Program</option>
+                                <option value="Academic Lecture Series">Academic Lecture Series</option>
+                                <option value="Custom Program">Custom Program</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-cert-title">Certificate Title</label>
+                            <input type="text" id="input-cert-title" value="CERTIFICATE OF APPRECIATION" oninput="appState.event.certTitle = this.value; renderCertificate();">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-program-name">Program Topic / Theme Title</label>
+                        <textarea id="input-program-name" oninput="appState.event.programName = this.value; renderCertificate();">BASIC MICROBIOLOGY AND MYCOLOGY: ESSENTIAL LABORATORY TECHNIQUES</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="input-event-dates">Date(s) of Event</label>
+                            <input type="text" id="input-event-dates" value="from 22/05/2026 to 30/05/2026" oninput="appState.event.dates = this.value; renderCertificate();" placeholder="e.g. on 25/05/2026 or from ... to ...">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-event-duration">Duration / Academic Year</label>
+                            <input type="text" id="input-event-duration" value="(Total: 60 hours) during the academic year 2025-2026" oninput="appState.event.duration = this.value; renderCertificate();" placeholder="e.g. (Total: 60 hours)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== TAB 2: LOGOS & EMBLEMS MANAGER ==================== -->
+                <div class="tab-pane" id="tab-logos">
+                    <div class="form-section-title">
+                        <span>Logos & Emblems Studio</span>
+                        <button class="btn btn-secondary btn-sm" onclick="addNewLogo()">+ Add Logo</button>
+                    </div>
+                    <p style="font-size:0.75rem; color:var(--ui-text-muted); line-height: 1.4;">
+                        Add multiple logos and position them at your desired locations (<strong>Top-Left, Top-Right, Top-Center, Bottom-Left, Bottom-Right, or Watermark</strong>). Uploaded images are automatically converted to <strong>Base64</strong> and intelligently resized if large so performance remains instant.
+                    </p>
+
+                    <!-- Dynamic Logos List -->
+                    <div id="logos-list-container" style="display:flex; flex-direction:column; gap:12px;">
+                        <!-- Injected via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- ==================== TAB 3: RECIPIENTS & IMPORT ==================== -->
+                <div class="tab-pane" id="tab-recipients">
+                    <!-- Individual vs Bulk Mode Pills -->
+                    <div class="mode-pill-selector">
+                        <button class="mode-pill-btn active" id="mode-single-btn" onclick="setGenerationMode('single')">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Individual Preview
+                        </button>
+                        <button class="mode-pill-btn" id="mode-bulk-btn" onclick="setGenerationMode('bulk')">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Bulk / Batch Mode
+                        </button>
+                    </div>
+
+                    <!-- Bulk Actions Toolbar -->
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="openCsvImportModal()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                Import CSV / Excel
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="loadSamplePresetData()" title="Load built-in demo recipients">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                                Demo Data
+                            </button>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="width:100%; justify-content:center; background:linear-gradient(135deg, #10b981, #059669); color:#ffffff; border:none; box-shadow:0 3px 10px rgba(16, 185, 129, 0.25);" onclick="downloadSampleCsvTemplate()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            📥 Download Excel / CSV Template
+                        </button>
+                    </div>
+
+                    <div class="form-section-title">
+                        <span>Recipient Details</span>
+                    </div>
+
+                    <!-- Recipient Quick Dropdown -->
+                    <div class="form-group">
+                        <label for="select-recipient-picker">Select from List / Recipient Quick Switch</label>
+                        <select id="select-recipient-picker" onchange="onRecipientSelectChange(this.value)">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-recipient-name">Full Name</label>
+                        <input type="text" id="input-recipient-name" value="Prof. (Dr.) Arthur C. Pendelton" oninput="updateActiveRecipientField('name', this.value)">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="select-recipient-role">Category / Role</label>
+                            <select id="select-recipient-role" onchange="updateActiveRecipientField('role', this.value)">
+                                <option value="resource">Resource Person</option>
+                                <option value="coordinator">Coordinator</option>
+                                <option value="organizer">Organizer / Convenor</option>
+                                <option value="participant">Participant</option>
+                                <option value="presenter">Paper Presenter</option>
+                                <option value="keynote">Keynote Speaker</option>
+                                <option value="volunteer">Volunteer / Committee</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-recipient-certid">Certificate / Roll ID</label>
+                            <input type="text" id="input-recipient-certid" value="HIAS/BOT/2026/RP-01" oninput="updateActiveRecipientField('certId', this.value)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-recipient-designation">
+                            <span>Designation / Role in Dept</span>
+                            <span class="hint" style="color:var(--ui-accent-gold); font-size:0.68rem;">⚡ Auto-populating dropdown</span>
+                        </label>
+                        <input type="text" id="input-recipient-designation" list="designation-datalist" value="Professor & Head, Dept. of Botany" oninput="updateActiveRecipientField('designation', this.value)" placeholder="e.g. Assistant Professor / Research Scholar" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-recipient-college">
+                            <span>Institution / Organization</span>
+                            <span class="hint" style="color:var(--ui-accent-gold); font-size:0.68rem;">⚡ Auto-populating dropdown</span>
+                        </label>
+                        <input type="text" id="input-recipient-college" list="college-datalist" value="Heritage Institute of Advanced Studies" oninput="updateActiveRecipientField('college', this.value)" placeholder="e.g. Heritage Institute of Advanced Studies" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-recipient-extra">Special Mention / Paper Title <span class="hint">(Optional)</span></label>
+                        <input type="text" id="input-recipient-extra" value="" oninput="updateActiveRecipientField('extra', this.value)" placeholder="e.g. Paper title, grade or honors">
+                    </div>
+
+                    <div style="display:flex; gap:8px; margin-top:8px;">
+                        <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="addNewEmptyRecipient()">
+                            + Add New Person
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="removeActiveRecipient()">
+                            Delete Current
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==================== TAB 4: DESIGN, THEMES & GEOMETRY ==================== -->
+                <div class="tab-pane" id="tab-design">
+                    <div class="form-section-title">
+                        <span>Aesthetics & Theme</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="select-theme">Certificate Model Theme</label>
+                        <select id="select-theme" onchange="onThemeChange(this.value)">
+                            <option value="theme-classic-heritage">1. Classic Heritage (Navy & Gold)</option>
+                            <option value="theme-modern-minimalist">2. Modern Minimalist (Monochrome Charcoal)</option>
+                            <option value="theme-royal-emerald">3. Royal Emerald (Deep Green & Amber)</option>
+                            <option value="theme-elite-imperial">4. Elite Imperial (Aged Parchment)</option>
+                            <option value="theme-crimson-presidential">5. Crimson Presidential (Ruby & Silver)</option>
+                            <option value="theme-geometric-tech">6. Geometric Tech (Cyan & Midnight)</option>
+                            <option value="theme-vintage-monogram">7. Vintage Monogram (Purple & Rose)</option>
+                            <option value="theme-editorial-luxury">8. Editorial Luxury (Asymmetric Accent)</option>
+                            <option value="theme-golden-award">9. Golden Award (Radiant Lustre)</option>
+                            <option value="theme-executive-dark">10. Executive Slate Dark (Dark Mode & Gold)</option>
+                            <option value="theme-sapphire-academic">11. Sapphire Academic (Cobalt & Silver)</option>
+                            <option value="theme-botanical-flora">12. Botanical Flora (Forest Green & Sage)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-section-title">
+                        <span>Paper Size, Orientation & Alignment</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="select-paper-size">Paper Size</label>
+                            <select id="select-paper-size" onchange="onPaperSizeChange(this.value)">
+                                <option value="a4">A4 (297 × 210 mm)</option>
+                                <option value="letter">US Letter (11 × 8.5 in)</option>
+                                <option value="a3">A3 (420 × 297 mm)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="select-orientation">Orientation</label>
+                            <select id="select-orientation" onchange="onOrientationChange(this.value)">
+                                <option value="landscape">Landscape (Standard)</option>
+                                <option value="portrait">Portrait (Tall)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="select-alignment">Text Alignment</label>
+                        <select id="select-alignment" onchange="onAlignmentChange(this.value)">
+                            <option value="align-center">Center Aligned (Classic Formal)</option>
+                            <option value="align-left">Left Aligned (Modern Editorial)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-section-title">
+                        <span>Embellishments & Accents</span>
+                    </div>
+
+                    <div class="switch-toggle-group">
+                        <span>Guilloche Security Border</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-guilloche" onchange="toggleGuilloche(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="switch-toggle-group">
+                        <span>Official Golden Rosette / Stamp</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-stamp" checked onchange="toggleStamp(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="switch-toggle-group">
+                        <span>Verification QR Code Badge</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-qr" checked onchange="toggleQr(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ==================== TAB 5: SIGNATORIES STUDIO ==================== -->
+                <div class="tab-pane" id="tab-signatures">
+                    <div class="form-section-title">
+                        <span>Signatories Configuration</span>
+                        <button class="btn btn-secondary btn-sm" onclick="addNewSignatory()">+ Add Signer</button>
+                    </div>
+
+                    <div class="switch-toggle-group">
+                        <div>
+                            <span style="font-weight:600; font-size:0.8rem;">Auto-Omit Self Signature</span>
+                            <p style="font-size:0.7rem; color:var(--ui-text-muted);">Hides HoD/Signer's own signature line when certificate is issued to them</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-auto-omit-sig" checked onchange="appState.sigConfig.autoOmitSelf = this.checked; renderCertificate();">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Dynamic Signatories Container -->
+                    <div id="signatories-list-container" style="display:flex; flex-direction:column; gap:12px;">
+                        <!-- Injected via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- ==================== TAB 6: CATEGORY VERBIAGE TEMPLATES ==================== -->
+                <div class="tab-pane" id="tab-wording">
+                    <div class="form-section-title">
+                        <span>Dynamic Role Verbiage</span>
+                    </div>
+                    <p style="font-size:0.75rem; color:var(--ui-text-muted);">
+                        Available placeholders: <code>{name}</code>, <code>{designation}</code>, <code>{college}</code>, <code>{role}</code>, <code>{program}</code>, <code>{type}</code>, <code>{dates}</code>, <code>{duration}</code>.
+                    </p>
+
+                    <div class="form-group">
+                        <label>Resource Person Template</label>
+                        <textarea id="tpl-resource" oninput="appState.templates.resource = this.value; renderCertificate();"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Coordinator Template</label>
+                        <textarea id="tpl-coordinator" oninput="appState.templates.coordinator = this.value; renderCertificate();"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Organizer Template</label>
+                        <textarea id="tpl-organizer" oninput="appState.templates.organizer = this.value; renderCertificate();"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Participant Template</label>
+                        <textarea id="tpl-participant" oninput="appState.templates.participant = this.value; renderCertificate();"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Paper Presenter Template</label>
+                        <textarea id="tpl-presenter" oninput="appState.templates.presenter = this.value; renderCertificate();"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- RIGHT MAIN CANVAS: LIVE INTERACTIVE PREVIEW -->
+        <main class="studio-canvas-area">
+            
+            <!-- Canvas Toolbar -->
+            <div class="canvas-toolbar">
+                <div class="canvas-info-pills">
+                    <div class="info-pill">
+                        <span style="color:var(--ui-accent-gold); font-weight:700;">Theme:</span>
+                        <span id="toolbar-theme-label">Classic Heritage</span>
+                    </div>
+                    <div class="info-pill">
+                        <span style="color:var(--ui-accent); font-weight:700;">Format:</span>
+                        <span id="toolbar-format-label">A4 Landscape</span>
+                    </div>
+                    <div class="info-pill">
+                        <span style="color:var(--ui-accent-green); font-weight:700;">Mode:</span>
+                        <span id="toolbar-mode-label">Individual Preview</span>
+                    </div>
+                </div>
+
+                <div class="canvas-zoom-controls">
+                    <button class="zoom-btn" onclick="adjustZoom(-0.1)" title="Zoom Out">-</button>
+                    <span id="zoom-level-text" style="font-size:0.8rem; font-weight:600; min-width:44px; text-align:center;">85%</span>
+                    <button class="zoom-btn" onclick="adjustZoom(0.1)" title="Zoom In">+</button>
+                    <button class="zoom-btn" onclick="resetZoom()" title="Fit to Viewport" style="width:auto; padding:0 8px; font-size:0.75rem;">Reset</button>
+                </div>
+            </div>
+
+            <!-- Scrollable Viewport with Certificate Container -->
+            <div class="canvas-viewport" id="canvas-viewport">
+                <div id="certificates-render-container">
+                    <!-- Dynamic Certificate HTML inserted here -->
+                </div>
+            </div>
+
+            <!-- Batch Navigation Bar (Active in Bulk Mode) -->
+            <div class="batch-navigator-bar" id="batch-navigator-bar">
+                <div class="batch-stats-badge">
+                    <span style="color:var(--ui-accent-gold); font-weight:bold;" id="batch-nav-current-index">Certificate 1 of 7</span>
+                    <span style="color:var(--ui-text-muted);">|</span>
+                    <span id="batch-nav-current-name">Prof. (Dr.) Arthur C. Pendelton</span>
+                    <span class="badge" id="batch-nav-current-role">Resource Person</span>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="btn btn-secondary btn-sm" onclick="navigateBatch(-1)">
+                        &larr; Previous
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="navigateBatch(1)">
+                        Next &rarr;
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ==================== CSV / EXCEL BULK IMPORT MODAL ==================== -->
+    <div class="modal-overlay" id="csv-import-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Import Recipients from Excel / CSV
+                </h2>
+                <button class="modal-close-btn" onclick="closeCsvImportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.85rem; color:var(--ui-text-muted);">
+                    Paste your tab-separated or comma-separated rows below directly from Excel or Google Sheets, or upload a <code>.csv</code> file.
+                </p>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <span style="font-size:0.78rem; color:var(--ui-accent);">
+                        Format: <code>Name, Designation, Institution, Role, CertificateID, Extra</code>
+                    </span>
+                    <div style="display:flex; gap:6px;">
+                        <button class="btn btn-primary btn-sm" style="background:linear-gradient(135deg, #10b981, #059669); color:#ffffff; border:none;" onclick="downloadSampleCsvTemplate()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Download Excel Template (.csv)
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="insertSampleCsvText()">Paste Example Format</button>
+                    </div>
+                </div>
+
+                <textarea id="csv-raw-textarea" style="height:180px; font-family:monospace; font-size:0.8rem;" placeholder="Dr. Jane Smith, Assistant Professor, Heritage Institute of Advanced Studies, resource, HIAS/2026/01, Keynote lecture
+Mr. John Doe, Research Scholar, Metropolitan Central University, participant, HIAS/2026/02, -"></textarea>
+
+                <div class="file-upload-box">
+                    <input type="file" id="csv-file-input" accept=".csv, .txt, .tsv" onchange="handleCsvFileUpload(event)">
+                    <span style="font-size:0.82rem; color:var(--ui-accent-gold);">Or drag & drop / choose .csv file from your computer</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCsvImportModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="processCsvInput()">Process & Replace List</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== RECIPIENTS TABLE MODAL ==================== -->
+    <div class="modal-overlay" id="recipients-table-modal">
+        <div class="modal-box" style="max-width:960px;">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"></path><path d="M21 9H3"></path><path d="M21 15H3"></path><path d="M12 3v18"></path></svg>
+                    All Recipients Database (<span id="modal-table-count">7</span>)
+                </h2>
+                <button class="modal-close-btn" onclick="closeRecipientsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:300px;">
+                        <input type="text" id="table-search-input" placeholder="Search by name, role, designation or institution..." style="max-width:320px;" oninput="filterRecipientsTable(this.value)">
+                        <span style="font-size:0.75rem; color:var(--ui-accent-gold); display:flex; align-items:center; gap:4px;">
+                            ⚡ Auto-populating dropdowns active: new values update for all rows!
+                        </span>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-secondary btn-sm" onclick="addNewRowFromTable()" title="Add a blank row with instant auto-dropdowns">
+                            + Add Row
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="downloadSampleCsvTemplate()" title="Download Excel-compatible sample CSV template">
+                            📥 Template (.csv)
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="exportRecipientsToCsv()">
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table" id="recipients-data-table">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">#</th>
+                                <th>Name</th>
+                                <th>Category / Role</th>
+                                <th>Designation <span style="font-size:0.65rem; color:var(--ui-accent-gold); font-weight:normal;">▼ Auto-list</span></th>
+                                <th>Institution <span style="font-size:0.65rem; color:var(--ui-accent-gold); font-weight:normal;">▼ Auto-list</span></th>
+                                <th>Cert ID</th>
+                                <th style="width:70px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recipients-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeRecipientsModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Dynamic Auto-populating Datalists for Designation, Institution, Department -->
+    <datalist id="designation-datalist"></datalist>
+    <datalist id="college-datalist"></datalist>
+    <datalist id="department-datalist"></datalist>
+
+    <!-- ==========================================================================
+         APPLICATION JAVASCRIPT LOGIC
+         ========================================================================== -->
+    <script>
+        /* --------------------------------------------------------------------------
+           DEFAULT EMBLEMS & LOGOS AS BASE64 SVG DATA URLS
+           -------------------------------------------------------------------------- */
+        const DEFAULT_COLLEGE_CREST_DATA_URL = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+            <circle cx="50" cy="50" r="46" stroke="#c5a880" stroke-width="2.5" fill="none"/>
+            <circle cx="50" cy="50" r="40" stroke="#0b2240" stroke-width="1.5" fill="none"/>
+            <path d="M50 20 L72 32 V54 C72 68 50 78 50 78 C50 78 28 68 28 54 V32 Z" fill="#0b2240" stroke="#c5a880" stroke-width="1.5"/>
+            <path d="M38 46 Q50 43 50 48 Q50 43 62 46 V58 Q50 55 50 60 Q50 55 38 58 Z" fill="#fffdf9" stroke="#c5a880" stroke-width="1"/>
+            <circle cx="50" cy="38" r="4" fill="#c5a880"/>
+            <path d="M50 30 Q53 34 50 36 Q47 34 50 30 Z" fill="#fbbf24"/>
+            <text x="50" y="87" font-family="'Cinzel', serif" font-size="6.5" font-weight="700" fill="#0b2240" text-anchor="middle" letter-spacing="1">ESTD 1888</text>
+        </svg>`);
+
+        const DEFAULT_UNIVERSITY_SEAL_DATA_URL = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+            <circle cx="50" cy="50" r="46" stroke="#0b2240" stroke-width="2" fill="none"/>
+            <circle cx="50" cy="50" r="42" stroke="#c5a880" stroke-width="1.5" stroke-dasharray="3,2" fill="none"/>
+            <!-- Laurel Wreath -->
+            <path d="M30 70 C22 55 24 35 36 24 C34 32 36 45 42 52 C35 58 32 64 30 70 Z" fill="#c5a880" opacity="0.9"/>
+            <path d="M70 70 C78 55 76 35 64 24 C66 32 64 45 58 52 C65 58 68 64 70 70 Z" fill="#c5a880" opacity="0.9"/>
+            <!-- Center Star & Compass -->
+            <circle cx="50" cy="50" r="16" fill="#0b2240"/>
+            <polygon points="50,38 53,47 62,50 53,53 50,62 47,53 38,50 47,47" fill="#fbbf24"/>
+            <text x="50" y="82" font-family="'Montserrat', sans-serif" font-size="5" font-weight="700" fill="#0b2240" text-anchor="middle" letter-spacing="0.5">IQAC • NAAC A+</text>
+        </svg>`);
+
+        /* --------------------------------------------------------------------------
+           CENTRAL STATE OBJECT
+           -------------------------------------------------------------------------- */
+        const appState = {
+            mode: 'single', // 'single' | 'bulk'
+            currentRecipientIndex: 0,
+            zoom: 0.85,
+            
+            // Design & Layout Configuration
+            theme: 'theme-classic-heritage',
+            paperSize: 'a4',
+            orientation: 'landscape',
+            alignment: 'align-center',
+            showGuilloche: false,
+            showStamp: true,
+            showQr: true,
+
+            // Event & College Details
+            event: {
+                instName: "HERITAGE INSTITUTE OF ADVANCED STUDIES",
+                accreditation: "NAAC A++ Accredited | Affiliated to Apex Central University",
+                department: "DEPARTMENT OF BOTANY & IQAC",
+                programType: "Internship Program",
+                certTitle: "CERTIFICATE OF APPRECIATION",
+                programName: "BASIC MICROBIOLOGY AND MYCOLOGY: ESSENTIAL LABORATORY TECHNIQUES",
+                dates: "from 22/05/2026 to 30/05/2026",
+                duration: "(Total: 60 hours) during the academic year 2025-2026",
+                place: "Riverside Campus"
+            },
+
+            // Dynamic Multi-Logo System (Base64 Encoded with Desired Placements)
+            logos: [
+                {
+                    id: 'logo-college',
+                    name: "College Crest",
+                    position: "top-left", // "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-right" | "watermark"
+                    size: 80,             // height in px
+                    opacity: 1.0,         // 0.05 to 1.0
+                    enabled: true,
+                    dataUrl: DEFAULT_COLLEGE_CREST_DATA_URL
+                },
+                {
+                    id: 'logo-university',
+                    name: "University / IQAC Seal",
+                    position: "top-right",
+                    size: 75,
+                    opacity: 1.0,
+                    enabled: true,
+                    dataUrl: DEFAULT_UNIVERSITY_SEAL_DATA_URL
+                },
+                {
+                    id: 'logo-watermark',
+                    name: "Background Watermark Crest",
+                    position: "watermark",
+                    size: 130,
+                    opacity: 0.05,
+                    enabled: true,
+                    dataUrl: DEFAULT_COLLEGE_CREST_DATA_URL
+                }
+            ],
+
+            // Signatories Config
+            sigConfig: {
+                autoOmitSelf: true,
+                signatories: [
+                    {
+                        id: 'sig-hod',
+                        name: "Prof. (Dr.) Arthur C. Pendelton",
+                        role: "Head, Dept. of Botany",
+                        inst: "Heritage Institute of Advanced Studies",
+                        applyTo: "all",
+                        cursiveName: "Arthur C. Pendelton",
+                        imgUrl: ""
+                    },
+                    {
+                        id: 'sig-iqac',
+                        name: "Dr. Marcus Sterling",
+                        role: "IQAC Coordinator",
+                        inst: "Heritage Institute of Advanced Studies",
+                        applyTo: "all",
+                        cursiveName: "Marcus Sterling",
+                        imgUrl: ""
+                    },
+                    {
+                        id: 'sig-principal',
+                        name: "Dr. Evelyn Montgomery",
+                        role: "Principal",
+                        inst: "Heritage Institute of Advanced Studies",
+                        applyTo: "all",
+                        cursiveName: "Evelyn Montgomery",
+                        imgUrl: ""
+                    }
+                ]
+            },
+
+            // Narrative Verbiage Templates per Role
+            templates: {
+                resource: "in profound appreciation of invaluable service, intellectual leadership, and expert contributions as a <span class='cert-role-badge'>Resource Person</span> for conducting academic and practical sessions in the {type} on <span class='cert-topic-highlight'>“{program}”</span> organized by the {department}, {instName}, {accreditation}, {dates} {duration}.",
+                coordinator: "in sincere recognition and grateful appreciation of visionary leadership, stellar planning, and tireless dedication as the <span class='cert-role-badge'>Program Coordinator</span> for the successful execution of the {type} on <span class='cert-topic-highlight'>“{program}”</span> conducted by the {department}, {instName}, {accreditation}, {dates} {duration}.",
+                organizer: "in high recognition of commendable organizational support, enthusiastic dedication, and selfless service as an <span class='cert-role-badge'>Organizer</span> for the smooth conduct of the {type} on <span class='cert-topic-highlight'>“{program}”</span> organized by the {department}, {instName}, {dates}.",
+                participant: "for having successfully participated in and actively contributed to all modules and practical laboratory sessions of the {type} on <span class='cert-topic-highlight'>“{program}”</span> organized by the {department}, {instName}, {accreditation}, {dates} {duration}.",
+                presenter: "in recognition of presenting an original research paper titled <span class='cert-topic-highlight'>“{extra}”</span> in the {type} on <span class='cert-topic-highlight'>“{program}”</span> organized by the {department}, {instName}, {dates}."
+            },
+
+            // Recipients Callset
+            recipients: [
+                {
+                    name: "Prof. (Dr.) Arthur C. Pendelton",
+                    designation: "Professor & Head, Dept. of Botany",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "resource",
+                    certId: "HIAS/BOT/2026/RP-01",
+                    extra: ""
+                },
+                {
+                    name: "Dr. Jonathan R. Hayes",
+                    designation: "Assistant Professor",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "resource",
+                    certId: "HIAS/BOT/2026/RP-02",
+                    extra: ""
+                },
+                {
+                    name: "Dr. Beatrice Thorne",
+                    designation: "Assistant Professor",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "coordinator",
+                    certId: "HIAS/BOT/2026/CR-01",
+                    extra: ""
+                },
+                {
+                    name: "Mr. David K. Miller",
+                    designation: "Assistant Professor",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "resource",
+                    certId: "HIAS/BOT/2026/RP-03",
+                    extra: ""
+                },
+                {
+                    name: "Ms. Clara Oswald",
+                    designation: "Research Scholar",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "organizer",
+                    certId: "HIAS/BOT/2026/ORG-01",
+                    extra: ""
+                },
+                {
+                    name: "Mr. Lucas Bennett",
+                    designation: "Postgraduate Student",
+                    college: "Metropolitan Central University",
+                    role: "participant",
+                    certId: "HIAS/BOT/2026/PT-01",
+                    extra: ""
+                },
+                {
+                    name: "Ms. Fiona Gallagher",
+                    designation: "Research Fellow",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "presenter",
+                    certId: "HIAS/BOT/2026/PP-01",
+                    extra: "Endophytic Fungal Diversity in Western Ghats"
+                }
+            ]
+        };
+
+        /* --------------------------------------------------------------------------
+           BASE64 IMAGE RESIZER ENGINE (CANVAS-BASED DOWN-SAMPLING)
+           -------------------------------------------------------------------------- */
+        function resizeImageToBase64(file, maxDimension, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // If it's an SVG file, preserve vector quality directly as base64/data-url
+                if (file.type === "image/svg+xml" || file.name.toLowerCase().endsWith(".svg")) {
+                    callback(e.target.result, 120, 120);
+                    return;
+                }
+
+                const img = new Image();
+                img.onload = function() {
+                    let width = img.width;
+                    let height = img.height;
+
+                    // If image is larger than maxDimension, downscale proportionally
+                    if (width > maxDimension || height > maxDimension) {
+                        if (width > height) {
+                            height = Math.round((height * maxDimension) / width);
+                            width = maxDimension;
+                        } else {
+                            width = Math.round((width * maxDimension) / height);
+                            height = maxDimension;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const base64Data = canvas.toDataURL('image/png', 0.95);
+                    callback(base64Data, width, height);
+                };
+                img.onerror = function() {
+                    alert("Unable to read image. Please ensure it is a valid PNG, JPG, or SVG file.");
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        /* --------------------------------------------------------------------------
+           HTML ESCAPING & DATA SANITIZATION
+           -------------------------------------------------------------------------- */
+        function escapeHtml(str) {
+            if (str === undefined || str === null) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        /* --------------------------------------------------------------------------
+           AUTO-POPULATING SELF-UPDATING DROPDOWN / DATALIST ENGINE
+           -------------------------------------------------------------------------- */
+        function updateAutoPopulatingDatalists() {
+            // 1. Gather all unique non-empty designations
+            const designationsSet = new Set();
+            
+            // Standard academic and professional seeds
+            const defaultDesignations = [
+                "Professor & Head, Dept. of Botany",
+                "Professor & Head",
+                "Professor",
+                "Associate Professor",
+                "Assistant Professor",
+                "Research Scholar",
+                "Research Fellow",
+                "Postdoctoral Fellow",
+                "Principal",
+                "Vice Principal",
+                "Dean, Academic Affairs",
+                "Head of the Department (HOD)",
+                "IQAC Coordinator",
+                "Program Coordinator",
+                "Convenor / Organizing Secretary",
+                "Guest Lecturer / Ad-hoc Faculty",
+                "Postgraduate Student",
+                "Undergraduate Student",
+                "M.Sc. Student",
+                "B.Sc. Student",
+                "Technical Officer / Laboratory In-Charge"
+            ];
+            defaultDesignations.forEach(d => { if (d && d.trim()) designationsSet.add(d.trim()); });
+
+            // Extract from all current recipients in memory
+            if (appState.recipients && Array.isArray(appState.recipients)) {
+                appState.recipients.forEach(r => {
+                    if (r.designation && r.designation.trim()) {
+                        designationsSet.add(r.designation.trim());
+                    }
+                });
+            }
+
+            // Extract from all signatories
+            if (appState.sigConfig && Array.isArray(appState.sigConfig.signatories)) {
+                appState.sigConfig.signatories.forEach(s => {
+                    if (s.role && s.role.trim()) {
+                        designationsSet.add(s.role.trim());
+                    }
+                });
+            }
+
+            // Check active recipient designation input in sidebar
+            const activeDesig = document.getElementById('input-recipient-designation');
+            if (activeDesig && activeDesig.value && activeDesig.value.trim()) {
+                designationsSet.add(activeDesig.value.trim());
+            }
+
+            // 2. Gather all unique non-empty institutions/colleges
+            const collegesSet = new Set();
+
+            // Default host institution
+            if (appState.event && appState.event.instName && appState.event.instName.trim()) {
+                collegesSet.add(appState.event.instName.trim());
+            }
+            // Additional popular academic seeds
+            const defaultColleges = [
+                "Heritage Institute of Advanced Studies",
+                "Metropolitan Central University",
+                "St. Jude's University of Science & Technology",
+                "Greenwood National University",
+                "Pacific Institute of Technology",
+                "Apex Central University",
+                "Highland Botanical & Research Institute",
+                "Horizon University of Health Sciences"
+            ];
+            defaultColleges.forEach(c => { if (c && c.trim()) collegesSet.add(c.trim()); });
+
+            // Extract from all current recipients in memory
+            if (appState.recipients && Array.isArray(appState.recipients)) {
+                appState.recipients.forEach(r => {
+                    if (r.college && r.college.trim()) {
+                        collegesSet.add(r.college.trim());
+                    }
+                });
+            }
+
+            // Extract from all signatories
+            if (appState.sigConfig && Array.isArray(appState.sigConfig.signatories)) {
+                appState.sigConfig.signatories.forEach(s => {
+                    if (s.inst && s.inst.trim()) {
+                        collegesSet.add(s.inst.trim());
+                    }
+                });
+            }
+
+            // Check active recipient college input in sidebar
+            const activeCollege = document.getElementById('input-recipient-college');
+            if (activeCollege && activeCollege.value && activeCollege.value.trim()) {
+                collegesSet.add(activeCollege.value.trim());
+            }
+
+            // Check main institution input in Tab 1
+            const mainInst = document.getElementById('input-inst-name');
+            if (mainInst && mainInst.value && mainInst.value.trim()) {
+                collegesSet.add(mainInst.value.trim());
+            }
+
+            // 3. Gather departments
+            const departmentsSet = new Set([
+                "DEPARTMENT OF BOTANY & IQAC",
+                "DEPARTMENT OF BOTANY",
+                "DEPARTMENT OF ZOOLOGY",
+                "DEPARTMENT OF CHEMISTRY",
+                "DEPARTMENT OF PHYSICS",
+                "DEPARTMENT OF BIOTECHNOLOGY",
+                "DEPARTMENT OF MICROBIOLOGY",
+                "DEPARTMENT OF COMPUTER SCIENCE",
+                "INTERNAL QUALITY ASSURANCE CELL (IQAC)"
+            ]);
+            if (appState.event && appState.event.department && appState.event.department.trim()) {
+                departmentsSet.add(appState.event.department.trim());
+            }
+
+            // Render datalists
+            renderDatalistOptions('designation-datalist', Array.from(designationsSet).sort());
+            renderDatalistOptions('college-datalist', Array.from(collegesSet).sort());
+            renderDatalistOptions('department-datalist', Array.from(departmentsSet).sort());
+        }
+
+        function renderDatalistOptions(datalistId, items) {
+            const el = document.getElementById(datalistId);
+            if (!el) return;
+            el.innerHTML = '';
+            items.forEach(val => {
+                const opt = document.createElement('option');
+                opt.value = val;
+                el.appendChild(opt);
+            });
+        }
+
+        /* --------------------------------------------------------------------------
+           CORE RENDERING ENGINE
+           -------------------------------------------------------------------------- */
+        function initApp() {
+            // Populate Templates UI
+            document.getElementById('tpl-resource').value = appState.templates.resource;
+            document.getElementById('tpl-coordinator').value = appState.templates.coordinator;
+            document.getElementById('tpl-organizer').value = appState.templates.organizer;
+            document.getElementById('tpl-participant').value = appState.templates.participant;
+            document.getElementById('tpl-presenter').value = appState.templates.presenter;
+
+            renderLogosListUI();
+            renderSignatoriesListUI();
+            updateAutoPopulatingDatalists();
+            updateRecipientDropdown();
+            syncActiveRecipientForm();
+            renderCertificate();
+        }
+
+        // Render logos for a specific certificate position slot
+        function renderLogosForPosition(positionKey) {
+            const list = appState.logos.filter(l => l.enabled && l.position === positionKey && l.dataUrl);
+            if (!list.length) return '';
+
+            if (positionKey === 'watermark') {
+                return list.map(l => {
+                    const h = (l.size || 130) * 2.8;
+                    const op = l.opacity !== undefined ? l.opacity : 0.05;
+                    return `
+                        <div class="cert-watermark-item" style="opacity: ${op};">
+                            <img src="${l.dataUrl}" alt="${l.name}" style="height: ${h}px; max-width: 480px; max-height: 480px;">
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            return list.map(l => {
+                const h = l.size || 75;
+                const op = l.opacity !== undefined ? l.opacity : 1.0;
+                return `
+                    <div class="cert-logo-item" style="opacity: ${op};" title="${l.name} (${positionKey})">
+                        <img src="${l.dataUrl}" alt="${l.name}" style="height: ${h}px; max-height: ${h}px; max-width: 180px;">
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Generate narrative text from template with placeholder substitutions
+        function generateNarrative(recipient) {
+            const roleKey = recipient.role || 'participant';
+            let tpl = appState.templates[roleKey] || appState.templates.participant;
+
+            const replacements = {
+                '{name}': recipient.name,
+                '{designation}': recipient.designation,
+                '{college}': recipient.college,
+                '{role}': getRoleDisplayName(recipient.role),
+                '{program}': appState.event.programName,
+                '{type}': appState.event.programType,
+                '{department}': appState.event.department,
+                '{instName}': appState.event.instName,
+                '{accreditation}': appState.event.accreditation,
+                '{dates}': appState.event.dates,
+                '{duration}': appState.event.duration,
+                '{extra}': recipient.extra || ''
+            };
+
+            for (const [ph, val] of Object.entries(replacements)) {
+                tpl = tpl.split(ph).join(val);
+            }
+            return tpl;
+        }
+
+        function getRoleDisplayName(roleKey) {
+            const map = {
+                resource: "Resource Person",
+                coordinator: "Coordinator",
+                organizer: "Organizer",
+                participant: "Participant",
+                presenter: "Paper Presenter",
+                keynote: "Keynote Speaker",
+                volunteer: "Volunteer"
+            };
+            return map[roleKey] || "Participant";
+        }
+
+        // SVG Official Golden Medal
+        function getMedalSealSvg() {
+            if (!appState.showStamp) return '';
+            return `
+            <div class="official-medal-seal">
+                <svg class="medal-star-svg" viewBox="0 0 100 100">
+                    <polygon points="50,2 62,15 78,8 85,24 100,28 98,45 108,58 97,71 100,88 84,88 77,103 61,97 50,108 39,97 23,103 16,88 0,88 3,71 -8,58 2,45 0,28 15,24 22,8 38,15" fill="var(--cert-secondary)"/>
+                    <circle cx="50" cy="50" r="38" fill="var(--cert-bg)" stroke="var(--cert-primary)" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="32" fill="none" stroke="var(--cert-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+                </svg>
+                <div class="medal-inner-text">
+                    ★ OFFICIAL ★<br><strong>SEAL OF</strong><br>MERIT
+                </div>
+            </div>`;
+        }
+
+        // SVG Interactive QR Code
+        function getQrCodeSvg(certId) {
+            if (!appState.showQr) return '';
+            return `
+            <div class="cert-qr-box" title="Verification ID: ${certId || 'VERIFIED'}">
+                <svg viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0h9v9H0zm2 2v5h5V2zm18-2h9v9h-9zm2 2v5h5V2zM0 20h9v9H0zm2 2v5h5v-5zm12-9h3v3h-3zm-3 3h3v3H9zm6 0h3v3h-3zm3 0h3v3h-3zm3 3h3v3h-3zm0 3h3v3h-3zm-6 0h3v3h-3zm-6 0h3v3h-3zm0 3h3v3h-3zm6 0h3v3h-3zm-3-9h3v3h-3zm9-3h3v3h-3z" fill="var(--cert-primary)"/>
+                </svg>
+            </div>`;
+        }
+
+        // Build HTML for a single certificate instance
+        function buildCertificateHtml(recipient, index) {
+            // Process Signatories for this recipient
+            const cleanRecipientName = recipient.name.toUpperCase().trim();
+            const activeSignatories = appState.sigConfig.signatories.filter(sig => {
+                // Self-omission rule
+                if (appState.sigConfig.autoOmitSelf) {
+                    const cleanSigName = sig.name.toUpperCase().trim();
+                    const cleanRecParts = cleanRecipientName.replace(/[^A-Z]/g, '');
+                    const cleanSigParts = cleanSigName.replace(/[^A-Z]/g, '');
+                    if (cleanRecParts.includes(cleanSigParts) || cleanSigParts.includes(cleanRecParts) || (cleanRecipientName.includes("PENDELTON") && cleanSigName.includes("PENDELTON"))) {
+                        return false; // Omit this signature
+                    }
+                }
+                // Category role filter
+                if (sig.applyTo && sig.applyTo !== 'all') {
+                    if (sig.applyTo !== recipient.role) return false;
+                }
+                return true;
+            });
+
+            // Grid column class based on remaining count
+            const sigCount = activeSignatories.length;
+            const sigColClass = `sig-cols-${Math.min(sigCount, 5)}`;
+
+            // Signatories HTML
+            const sigsHtml = activeSignatories.map(sig => `
+                <div class="signature-item">
+                    <div class="sig-img-container">
+                        ${sig.imgUrl ? `<img src="${sig.imgUrl}" class="sig-img" alt="${sig.name}">` : `<span class="sig-cursive-font">${sig.cursiveName || sig.name}</span>`}
+                    </div>
+                    <div class="sig-line"></div>
+                    <div class="sig-name">${sig.name}</div>
+                    <div class="sig-role">${sig.role}</div>
+                    <div class="sig-inst">${sig.inst}</div>
+                </div>
+            `).join('');
+
+            // Recipient display
+            const displayName = recipient.name.toUpperCase();
+            const displayAffiliation = [recipient.designation, recipient.college].filter(Boolean).join(', ').toUpperCase();
+
+            // Narrative text
+            const narrativeHtml = generateNarrative(recipient);
+
+            // Render Logos for each defined slot
+            const logosTopLeft = renderLogosForPosition('top-left');
+            const logosTopCenter = renderLogosForPosition('top-center');
+            const logosTopRight = renderLogosForPosition('top-right');
+            const logosBottomLeft = renderLogosForPosition('bottom-left');
+            const logosBottomRight = renderLogosForPosition('bottom-right');
+            const logosWatermark = renderLogosForPosition('watermark');
+
+            return `
+            <div class="certificate-wrapper cert-size-${appState.paperSize} cert-orient-${appState.orientation} ${appState.theme} ${appState.alignment} ${appState.showGuilloche ? 'has-guilloche-border' : ''}" data-cert-index="${index}">
+                <div class="cert-border-outer">
+                    <!-- Corner Brackets -->
+                    <div class="corner-ornament corner-top-left"><div class="corner-bracket-accent"></div></div>
+                    <div class="corner-ornament corner-top-right"><div class="corner-bracket-accent"></div></div>
+                    <div class="corner-ornament corner-bottom-left"><div class="corner-bracket-accent"></div></div>
+                    <div class="corner-ornament corner-bottom-right"><div class="corner-bracket-accent"></div></div>
+
+                    <!-- Watermark Logo(s) -->
+                    ${logosWatermark}
+
+                    <div class="cert-border-inner">
+                        <!-- HEADER -->
+                        <div class="cert-header">
+                            <div class="cert-header-top-row">
+                                <!-- Top-Left Logos Slot -->
+                                <div class="slot-top-left">
+                                    ${logosTopLeft}
+                                </div>
+
+                                <!-- Center Details -->
+                                <div class="institution-details">
+                                    ${logosTopCenter ? `<div class="slot-top-center">${logosTopCenter}</div>` : ''}
+                                    <h2 class="inst-title">${appState.event.instName}</h2>
+                                    <div class="inst-accreditation">${appState.event.accreditation}</div>
+                                    <div class="inst-department">${appState.event.department}</div>
+                                </div>
+
+                                <!-- Top-Right Logos Slot -->
+                                <div class="slot-top-right">
+                                    ${logosTopRight}
+                                </div>
+                            </div>
+
+                            <div class="cert-title-container">
+                                <h1 class="cert-title">${appState.event.certTitle}</h1>
+                                <div class="cert-title-divider">
+                                    <div class="divider-line"></div>
+                                    <div class="divider-diamond"></div>
+                                    <div class="divider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BODY & RECIPIENT -->
+                        <div class="cert-body-content">
+                            <div class="cert-presentation-intro">This is to certify that</div>
+
+                            <div class="recipient-name-block">
+                                <div class="recipient-name">${displayName}</div>
+                                ${displayAffiliation ? `<div class="recipient-affiliation">${displayAffiliation}</div>` : ''}
+                            </div>
+
+                            <div class="cert-narrative-text">
+                                ${narrativeHtml}
+                            </div>
+                        </div>
+
+                        <!-- FOOTER & SIGNATURES -->
+                        <div class="cert-footer-row">
+                            <!-- Bottom-Left Slot (Seal, QR, Bottom-Left Logos) -->
+                            <div class="cert-seal-area">
+                                ${getMedalSealSvg()}
+                                ${getQrCodeSvg(recipient.certId)}
+                                <div class="slot-bottom-left">${logosBottomLeft}</div>
+                            </div>
+
+                            <!-- Signatures Grid -->
+                            <div class="signatures-grid ${sigColClass}">
+                                ${sigsHtml}
+                            </div>
+
+                            <!-- Bottom-Right Logos Slot -->
+                            ${logosBottomRight ? `<div class="slot-bottom-right">${logosBottomRight}</div>` : ''}
+                        </div>
+
+                        <!-- Bottom Metadata / Certificate ID -->
+                        ${recipient.certId ? `
+                        <div class="cert-bottom-meta-bar">
+                            <div class="cert-id-bottom">Certificate ID: <strong>${escapeHtml(recipient.certId)}</strong></div>
+                        </div>` : ''}
+
+                        <!-- Bottom Strip -->
+                        <div class="cert-bottom-accent-bar"></div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Master Render Function
+        function renderCertificate() {
+            const container = document.getElementById('certificates-render-container');
+            const totalRecipients = appState.recipients.length;
+
+            if (appState.currentRecipientIndex >= totalRecipients) {
+                appState.currentRecipientIndex = Math.max(0, totalRecipients - 1);
+            }
+
+            if (appState.mode === 'single') {
+                const cur = appState.recipients[appState.currentRecipientIndex] || {
+                    name: "Jane Doe",
+                    designation: "Assistant Professor",
+                    college: "Heritage Institute of Advanced Studies",
+                    role: "resource",
+                    certId: "CERT-001"
+                };
+                container.innerHTML = buildCertificateHtml(cur, appState.currentRecipientIndex);
+                document.getElementById('batch-navigator-bar').classList.remove('visible');
+                document.getElementById('toolbar-mode-label').textContent = "Individual Preview";
+                document.getElementById('print-btn-label').textContent = "Print / Save PDF";
+            } else {
+                container.innerHTML = appState.recipients.map((rec, idx) => buildCertificateHtml(rec, idx)).join('');
+                document.getElementById('batch-navigator-bar').classList.add('visible');
+                document.getElementById('toolbar-mode-label').textContent = `Batch (${totalRecipients} Cards)`;
+                document.getElementById('print-btn-label').textContent = `Print All (${totalRecipients} PDFs)`;
+                updateBatchNavDisplay();
+            }
+
+            // Sync Toolbar labels
+            const themeOption = document.querySelector(`#select-theme option[value="${appState.theme}"]`);
+            if (themeOption) document.getElementById('toolbar-theme-label').textContent = themeOption.textContent.split('. ')[1];
+            document.getElementById('toolbar-format-label').textContent = `${appState.paperSize.toUpperCase()} ${appState.orientation.toUpperCase()}`;
+
+            applyZoom();
+            document.body.className = `print-${appState.paperSize}-${appState.orientation}`;
+        }
+
+        /* --------------------------------------------------------------------------
+           LOGOS STUDIO UI BUILDER & RESIZER HANDLERS
+           -------------------------------------------------------------------------- */
+        function renderLogosListUI() {
+            const container = document.getElementById('logos-list-container');
+            container.innerHTML = '';
+
+            appState.logos.forEach((logo, idx) => {
+                const card = document.createElement('div');
+                card.className = 'config-card';
+                card.innerHTML = `
+                    <div class="config-card-header">
+                        <span class="config-card-title">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            Logo #${idx + 1}: ${logo.name}
+                        </span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <label style="font-size:0.75rem; color:var(--ui-text-muted); display:flex; align-items:center; gap:4px; cursor:pointer;">
+                                <input type="checkbox" ${logo.enabled ? 'checked' : ''} onchange="toggleLogoEnabled(${idx}, this.checked)">
+                                Active
+                            </label>
+                            ${appState.logos.length > 1 ? `<button class="btn btn-danger btn-sm" onclick="deleteLogo(${idx})" title="Delete Logo">&times;</button>` : ''}
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <div class="logo-preview-thumb-box" title="Base64 Preview">
+                            <img src="${logo.dataUrl}" alt="Thumbnail">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="margin-bottom:4px;">Upload & Auto-Resize Image <span class="hint">(Resizes to Base64)</span></label>
+                            <input type="file" accept="image/*" onchange="handleLogoFileInput(event, ${idx})" style="font-size:0.78rem; padding:5px 8px;">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Logo Label / Description</label>
+                            <input type="text" value="${logo.name}" oninput="updateLogoField(${idx}, 'name', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Placement / Position</label>
+                            <select onchange="updateLogoField(${idx}, 'position', this.value)">
+                                <option value="top-left" ${logo.position === 'top-left' ? 'selected' : ''}>Top-Left (Header)</option>
+                                <option value="top-center" ${logo.position === 'top-center' ? 'selected' : ''}>Top-Center (Above/Below Title)</option>
+                                <option value="top-right" ${logo.position === 'top-right' ? 'selected' : ''}>Top-Right (Header)</option>
+                                <option value="bottom-left" ${logo.position === 'bottom-left' ? 'selected' : ''}>Bottom-Left (Near Seal)</option>
+                                <option value="bottom-right" ${logo.position === 'bottom-right' ? 'selected' : ''}>Bottom-Right (Near Signers)</option>
+                                <option value="watermark" ${logo.position === 'watermark' ? 'selected' : ''}>Center Background (Watermark)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Size / Height: <strong id="logo-size-val-${idx}">${logo.size}px</strong></label>
+                            <input type="range" min="30" max="160" value="${logo.size}" oninput="updateLogoSize(${idx}, this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Opacity: <strong id="logo-opacity-val-${idx}">${Math.round(logo.opacity * 100)}%</strong></label>
+                            <input type="range" min="0.05" max="1.0" step="0.05" value="${logo.opacity}" oninput="updateLogoOpacity(${idx}, this.value)">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function handleLogoFileInput(event, logoIndex) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            showToast("Processing & resizing image to Base64...");
+
+            // If image is large (> 500px), downscale to max 500px so Base64 stays compact and fast
+            resizeImageToBase64(file, 500, function(base64Data, width, height) {
+                appState.logos[logoIndex].dataUrl = base64Data;
+                const cleanName = file.name.replace(/\.[^/.]+$/, "");
+                if (!appState.logos[logoIndex].name || appState.logos[logoIndex].name.startsWith("Logo #")) {
+                    appState.logos[logoIndex].name = cleanName;
+                }
+                renderLogosListUI();
+                renderCertificate();
+                showToast(`Logo resized to ${width}×${height}px Base64 and stored!`);
+            });
+        }
+
+        function updateLogoField(index, field, value) {
+            appState.logos[index][field] = value;
+            renderCertificate();
+        }
+
+        function updateLogoSize(index, val) {
+            appState.logos[index].size = parseInt(val, 10);
+            const el = document.getElementById(`logo-size-val-${index}`);
+            if (el) el.textContent = `${val}px`;
+            renderCertificate();
+        }
+
+        function updateLogoOpacity(index, val) {
+            appState.logos[index].opacity = parseFloat(val);
+            const el = document.getElementById(`logo-opacity-val-${index}`);
+            if (el) el.textContent = `${Math.round(val * 100)}%`;
+            renderCertificate();
+        }
+
+        function toggleLogoEnabled(index, checked) {
+            appState.logos[index].enabled = checked;
+            renderCertificate();
+        }
+
+        function addNewLogo() {
+            const count = appState.logos.length + 1;
+            appState.logos.push({
+                id: `logo-${Date.now()}`,
+                name: `Partner / Department Logo`,
+                position: count === 3 ? "top-center" : (count === 4 ? "bottom-left" : "top-right"),
+                size: 70,
+                opacity: 1.0,
+                enabled: true,
+                dataUrl: DEFAULT_UNIVERSITY_SEAL_DATA_URL
+            });
+            renderLogosListUI();
+            renderCertificate();
+            showToast("Added new logo slot. Upload custom image or adjust position!");
+        }
+
+        function deleteLogo(index) {
+            if (appState.logos.length <= 1) {
+                alert("At least one logo slot is needed.");
+                return;
+            }
+            appState.logos.splice(index, 1);
+            renderLogosListUI();
+            renderCertificate();
+            showToast("Logo slot deleted.");
+        }
+
+        /* --------------------------------------------------------------------------
+           INTERACTIVE CONTROLS & EVENT HANDLERS
+           -------------------------------------------------------------------------- */
+        function switchTab(tabId) {
+            document.querySelectorAll('.sidebar-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function setGenerationMode(mode) {
+            appState.mode = mode;
+            if (mode === 'single') {
+                document.getElementById('mode-single-btn').classList.add('active');
+                document.getElementById('mode-bulk-btn').classList.remove('active');
+            } else {
+                document.getElementById('mode-single-btn').classList.remove('active');
+                document.getElementById('mode-bulk-btn').classList.add('active');
+                showToast(`Batch mode activated: ${appState.recipients.length} certificates prepared for multi-page print.`);
+            }
+            renderCertificate();
+        }
+
+        function onThemeChange(newTheme) {
+            appState.theme = newTheme;
+            renderCertificate();
+            showToast(`Theme updated to ${newTheme.replace('theme-', '').replace('-', ' ').toUpperCase()}`);
+        }
+
+        function onPaperSizeChange(newSize) {
+            appState.paperSize = newSize;
+            renderCertificate();
+        }
+
+        function onOrientationChange(newOrientation) {
+            appState.orientation = newOrientation;
+            renderCertificate();
+        }
+
+        function onAlignmentChange(newAlignment) {
+            appState.alignment = newAlignment;
+            renderCertificate();
+        }
+
+        function toggleGuilloche(val) {
+            appState.showGuilloche = val;
+            renderCertificate();
+        }
+
+        function toggleStamp(val) {
+            appState.showStamp = val;
+            renderCertificate();
+        }
+
+        function toggleQr(val) {
+            appState.showQr = val;
+            renderCertificate();
+        }
+
+        function onProgramTypeChange(val) {
+            appState.event.programType = val;
+            if (val === 'Internship Program' || val === 'Faculty Development Program (FDP)') {
+                appState.event.certTitle = "CERTIFICATE OF APPRECIATION";
+            } else if (val === 'National Seminar' || val === 'Hands-on Workshop') {
+                appState.event.certTitle = "CERTIFICATE OF PARTICIPATION";
+            } else if (val === 'International Conference') {
+                appState.event.certTitle = "CERTIFICATE OF MERIT";
+            }
+            document.getElementById('input-cert-title').value = appState.event.certTitle;
+            renderCertificate();
+        }
+
+        /* --------------------------------------------------------------------------
+           RECIPIENT MANAGEMENT & BATCH NAVIGATION
+           -------------------------------------------------------------------------- */
+        function updateRecipientDropdown() {
+            const select = document.getElementById('select-recipient-picker');
+            select.innerHTML = '';
+            appState.recipients.forEach((rec, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `${idx + 1}. ${rec.name} (${getRoleDisplayName(rec.role)})`;
+                select.appendChild(opt);
+            });
+            select.value = appState.currentRecipientIndex;
+            document.getElementById('total-count-badge').textContent = appState.recipients.length;
+            document.getElementById('modal-table-count').textContent = appState.recipients.length;
+        }
+
+        function onRecipientSelectChange(index) {
+            appState.currentRecipientIndex = parseInt(index, 10);
+            syncActiveRecipientForm();
+            renderCertificate();
+        }
+
+        function syncActiveRecipientForm() {
+            const cur = appState.recipients[appState.currentRecipientIndex];
+            if (!cur) return;
+            document.getElementById('input-recipient-name').value = cur.name || '';
+            document.getElementById('select-recipient-role').value = cur.role || 'participant';
+            document.getElementById('input-recipient-designation').value = cur.designation || '';
+            document.getElementById('input-recipient-college').value = cur.college || '';
+            document.getElementById('input-recipient-certid').value = cur.certId || '';
+            document.getElementById('input-recipient-extra').value = cur.extra || '';
+            document.getElementById('select-recipient-picker').value = appState.currentRecipientIndex;
+        }
+
+        function updateActiveRecipientField(field, value) {
+            const cur = appState.recipients[appState.currentRecipientIndex];
+            if (!cur) return;
+            cur[field] = value;
+            updateRecipientDropdown();
+            if (field === 'designation' || field === 'college') {
+                updateAutoPopulatingDatalists();
+            }
+            renderCertificate();
+        }
+
+        function addNewEmptyRecipient() {
+            const newIndex = appState.recipients.length + 1;
+            const lastRec = appState.recipients[appState.recipients.length - 1];
+            const defaultCollege = lastRec ? lastRec.college : (appState.event.instName || "Heritage Institute of Advanced Studies");
+            const defaultDesignation = lastRec ? lastRec.designation : "Assistant Professor";
+            
+            let nextCertId = `CERT-${String(newIndex).padStart(3, '0')}`;
+            if (lastRec && lastRec.certId) {
+                const match = lastRec.certId.match(/^(.*?)(\d+)$/);
+                if (match) {
+                    const prefix = match[1];
+                    const num = parseInt(match[2], 10) + 1;
+                    nextCertId = prefix + String(num).padStart(match[2].length, '0');
+                }
+            }
+
+            const newRec = {
+                name: "New Recipient",
+                designation: defaultDesignation,
+                college: defaultCollege,
+                role: "participant",
+                certId: nextCertId,
+                extra: ""
+            };
+            appState.recipients.push(newRec);
+            appState.currentRecipientIndex = appState.recipients.length - 1;
+            updateAutoPopulatingDatalists();
+            updateRecipientDropdown();
+            syncActiveRecipientForm();
+            renderCertificate();
+            showToast("Added new recipient to batch list.");
+        }
+
+        function removeActiveRecipient() {
+            if (appState.recipients.length <= 1) {
+                alert("Cannot delete the last remaining recipient. At least one recipient is required.");
+                return;
+            }
+            if (confirm(`Remove ${appState.recipients[appState.currentRecipientIndex].name} from list?`)) {
+                appState.recipients.splice(appState.currentRecipientIndex, 1);
+                appState.currentRecipientIndex = Math.max(0, appState.currentRecipientIndex - 1);
+                updateAutoPopulatingDatalists();
+                updateRecipientDropdown();
+                syncActiveRecipientForm();
+                renderCertificate();
+                showToast("Recipient removed.");
+            }
+        }
+
+        function navigateBatch(delta) {
+            const len = appState.recipients.length;
+            appState.currentRecipientIndex = (appState.currentRecipientIndex + delta + len) % len;
+            syncActiveRecipientForm();
+            updateBatchNavDisplay();
+            
+            if (appState.mode === 'bulk') {
+                const target = document.querySelector(`.certificate-wrapper[data-cert-index="${appState.currentRecipientIndex}"]`);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                renderCertificate();
+            }
+        }
+
+        function updateBatchNavDisplay() {
+            const cur = appState.recipients[appState.currentRecipientIndex];
+            if (!cur) return;
+            document.getElementById('batch-nav-current-index').textContent = `Certificate ${appState.currentRecipientIndex + 1} of ${appState.recipients.length}`;
+            document.getElementById('batch-nav-current-name').textContent = cur.name;
+            document.getElementById('batch-nav-current-role').textContent = getRoleDisplayName(cur.role);
+        }
+
+        /* --------------------------------------------------------------------------
+           SIGNATORIES STUDIO UI BUILDER
+           -------------------------------------------------------------------------- */
+        function renderSignatoriesListUI() {
+            const container = document.getElementById('signatories-list-container');
+            container.innerHTML = '';
+
+            appState.sigConfig.signatories.forEach((sig, idx) => {
+                const card = document.createElement('div');
+                card.className = 'config-card';
+                card.innerHTML = `
+                    <div class="config-card-header">
+                        <span class="config-card-title">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                            Signer #${idx + 1}: ${sig.role}
+                        </span>
+                        <div style="display:flex; gap:4px;">
+                            ${idx > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveSignatory(${idx}, -1)" title="Move Left">&larr;</button>` : ''}
+                            ${idx < appState.sigConfig.signatories.length - 1 ? `<button class="btn btn-secondary btn-sm" onclick="moveSignatory(${idx}, 1)" title="Move Right">&rarr;</button>` : ''}
+                            <button class="btn btn-danger btn-sm" onclick="deleteSignatory(${idx})" title="Remove">&times;</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Signatory Name</label>
+                        <input type="text" value="${sig.name}" oninput="updateSignatoryField(${idx}, 'name', this.value)">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Official Title / Role <span class="hint" style="color:var(--ui-accent-gold); font-size:0.65rem;">Auto-dropdown</span></label>
+                            <input type="text" list="designation-datalist" value="${escapeHtml(sig.role)}" oninput="updateSignatoryField(${idx}, 'role', this.value)" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>Institution / College <span class="hint" style="color:var(--ui-accent-gold); font-size:0.65rem;">Auto-dropdown</span></label>
+                            <input type="text" list="college-datalist" value="${escapeHtml(sig.inst)}" oninput="updateSignatoryField(${idx}, 'inst', this.value)" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cursive Preview / Font</label>
+                            <input type="text" value="${escapeHtml(sig.cursiveName || sig.name)}" oninput="updateSignatoryField(${idx}, 'cursiveName', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Applies To Category</label>
+                            <select onchange="updateSignatoryField(${idx}, 'applyTo', this.value)">
+                                <option value="all" ${sig.applyTo === 'all' ? 'selected' : ''}>All Categories</option>
+                                <option value="resource" ${sig.applyTo === 'resource' ? 'selected' : ''}>Resource Persons Only</option>
+                                <option value="coordinator" ${sig.applyTo === 'coordinator' ? 'selected' : ''}>Coordinators Only</option>
+                                <option value="participant" ${sig.applyTo === 'participant' ? 'selected' : ''}>Participants Only</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateSignatoryField(index, field, val) {
+            appState.sigConfig.signatories[index][field] = val;
+            if (field === 'role' || field === 'inst') {
+                updateAutoPopulatingDatalists();
+            }
+            renderCertificate();
+        }
+
+        function moveSignatory(index, direction) {
+            const target = index + direction;
+            if (target < 0 || target >= appState.sigConfig.signatories.length) return;
+            const temp = appState.sigConfig.signatories[index];
+            appState.sigConfig.signatories[index] = appState.sigConfig.signatories[target];
+            appState.sigConfig.signatories[target] = temp;
+            renderSignatoriesListUI();
+            renderCertificate();
+        }
+
+        function addNewSignatory() {
+            if (appState.sigConfig.signatories.length >= 5) {
+                alert("Maximum of 5 signatories supported in standard certificate layout.");
+                return;
+            }
+            appState.sigConfig.signatories.push({
+                id: `sig-${Date.now()}`,
+                name: "Dr. Convener Name",
+                role: "Program Convener",
+                inst: appState.event.instName,
+                applyTo: "all",
+                cursiveName: "Convener",
+                imgUrl: ""
+            });
+            renderSignatoriesListUI();
+            renderCertificate();
+            showToast("Added new signatory block.");
+        }
+
+        function deleteSignatory(index) {
+            if (appState.sigConfig.signatories.length <= 1) {
+                alert("At least one signatory is required.");
+                return;
+            }
+            appState.sigConfig.signatories.splice(index, 1);
+            renderSignatoriesListUI();
+            renderCertificate();
+            showToast("Signatory removed.");
+        }
+
+        /* --------------------------------------------------------------------------
+           CSV / EXCEL BULK PARSER & MODALS
+           -------------------------------------------------------------------------- */
+        function openCsvImportModal() {
+            document.getElementById('csv-import-modal').classList.add('active');
+        }
+
+        function closeCsvImportModal() {
+            document.getElementById('csv-import-modal').classList.remove('active');
+        }
+
+        function insertSampleCsvText() {
+            document.getElementById('csv-raw-textarea').value = 
+`Prof. (Dr.) Arthur C. Pendelton, Professor & Head, Dept. of Botany, Heritage Institute of Advanced Studies, resource, HIAS/BOT/01, Keynote Session
+Dr. Jonathan R. Hayes, Assistant Professor, Heritage Institute of Advanced Studies, resource, HIAS/BOT/02, -
+Dr. Beatrice Thorne, Assistant Professor, Heritage Institute of Advanced Studies, coordinator, HIAS/BOT/03, -
+Mr. David K. Miller, Assistant Professor, Heritage Institute of Advanced Studies, resource, HIAS/BOT/04, -
+Ms. Clara Oswald, Research Scholar, Heritage Institute of Advanced Studies, organizer, HIAS/BOT/05, -
+Mr. Lucas Bennett, Postgraduate Student, Metropolitan Central University, participant, HIAS/BOT/06, -
+Ms. Fiona Gallagher, Research Fellow, Heritage Institute of Advanced Studies, presenter, HIAS/BOT/07, Endophytic Fungal Diversity`;
+        }
+
+        function handleCsvFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('csv-raw-textarea').value = e.target.result;
+                showToast(`Loaded ${file.name}`);
+            };
+            reader.readAsText(file);
+        }
+
+        function processCsvInput() {
+            const rawText = document.getElementById('csv-raw-textarea').value.trim();
+            if (!rawText) {
+                alert("Please paste data or upload a file first.");
+                return;
+            }
+
+            const lines = rawText.split(/\r?\n/).filter(line => line.trim().length > 0);
+            const parsed = [];
+
+            lines.forEach((line, idx) => {
+                const delimiter = line.includes('\t') ? '\t' : ',';
+                const cols = line.split(delimiter).map(c => c.trim().replace(/^["']|["']$/g, ''));
+                if (cols.length >= 1 && cols[0]) {
+                    if (idx === 0 && (cols[0].toLowerCase() === 'name' || cols[0].toLowerCase() === 'full name')) {
+                        return;
+                    }
+                    parsed.push({
+                        name: cols[0] || `Recipient ${idx + 1}`,
+                        designation: cols[1] || "",
+                        college: cols[2] || appState.event.instName,
+                        role: normalizeRole(cols[3]),
+                        certId: cols[4] || `CERT-${String(idx + 1).padStart(3, '0')}`,
+                        extra: cols[5] || ""
+                    });
+                }
+            });
+
+            if (parsed.length === 0) {
+                alert("Could not detect any valid recipient rows. Please check format.");
+                return;
+            }
+
+            appState.recipients = parsed;
+            appState.currentRecipientIndex = 0;
+            closeCsvImportModal();
+            updateAutoPopulatingDatalists();
+            updateRecipientDropdown();
+            syncActiveRecipientForm();
+            renderCertificate();
+            showToast(`Successfully imported ${parsed.length} recipients!`);
+        }
+
+        function normalizeRole(str) {
+            if (!str) return 'participant';
+            const s = str.toLowerCase().trim();
+            if (s.includes('resource') || s.includes('faculty') || s.includes('trainer') || s.includes('expert')) return 'resource';
+            if (s.includes('coord')) return 'coordinator';
+            if (s.includes('org') || s.includes('conven')) return 'organizer';
+            if (s.includes('presen') || s.includes('paper')) return 'presenter';
+            if (s.includes('keynote') || s.includes('speak')) return 'keynote';
+            if (s.includes('volun') || s.includes('comm')) return 'volunteer';
+            return 'participant';
+        }
+
+        function loadSamplePresetData() {
+            insertSampleCsvText();
+            processCsvInput();
+        }
+
+        /* --------------------------------------------------------------------------
+           RECIPIENTS TABLE MODAL & INLINE EDITOR
+           -------------------------------------------------------------------------- */
+        function openRecipientsModal() {
+            populateRecipientsTable();
+            document.getElementById('recipients-table-modal').classList.add('active');
+        }
+
+        function closeRecipientsModal() {
+            document.getElementById('recipients-table-modal').classList.remove('active');
+            updateRecipientDropdown();
+            syncActiveRecipientForm();
+            renderCertificate();
+        }
+
+        function updateTableRowField(index, field, value) {
+            if (!appState.recipients[index]) return;
+            appState.recipients[index][field] = value;
+            
+            // If the row being edited is the active recipient in single preview mode, sync form and preview
+            if (index === appState.currentRecipientIndex) {
+                syncActiveRecipientForm();
+                renderCertificate();
+            }
+
+            // Immediately refresh datalists so subsequent rows have the newly entered value in their dropdowns!
+            if (field === 'designation' || field === 'college') {
+                updateAutoPopulatingDatalists();
+            }
+        }
+
+        function addNewRowFromTable() {
+            const newIndex = appState.recipients.length + 1;
+            const lastRec = appState.recipients[appState.recipients.length - 1];
+            const defaultCollege = lastRec ? lastRec.college : (appState.event.instName || "Heritage Institute of Advanced Studies");
+            
+            let nextCertId = `CERT-${String(newIndex).padStart(3, '0')}`;
+            if (lastRec && lastRec.certId) {
+                const match = lastRec.certId.match(/^(.*?)(\d+)$/);
+                if (match) {
+                    const prefix = match[1];
+                    const num = parseInt(match[2], 10) + 1;
+                    nextCertId = prefix + String(num).padStart(match[2].length, '0');
+                }
+            }
+
+            const newRec = {
+                name: "",
+                designation: "",
+                college: defaultCollege,
+                role: "participant",
+                certId: nextCertId,
+                extra: ""
+            };
+            appState.recipients.push(newRec);
+            updateAutoPopulatingDatalists();
+            updateRecipientDropdown();
+            populateRecipientsTable(document.getElementById('table-search-input').value);
+            document.getElementById('total-count-badge').textContent = appState.recipients.length;
+            document.getElementById('modal-table-count').textContent = appState.recipients.length;
+
+            // Auto-focus on the newly created row's name input
+            setTimeout(() => {
+                const tbody = document.getElementById('recipients-table-body');
+                if (tbody && tbody.lastElementChild) {
+                    const inputs = tbody.lastElementChild.querySelectorAll('input');
+                    if (inputs && inputs[0]) inputs[0].focus();
+                }
+            }, 50);
+            showToast("Added new row to database. Auto-dropdowns updated!");
+        }
+
+        function populateRecipientsTable(filterText = '') {
+            const tbody = document.getElementById('recipients-table-body');
+            tbody.innerHTML = '';
+            const q = filterText.toLowerCase();
+
+            appState.recipients.forEach((rec, idx) => {
+                if (q && !rec.name.toLowerCase().includes(q) && !rec.role.toLowerCase().includes(q) && !rec.college.toLowerCase().includes(q) && !rec.designation.toLowerCase().includes(q)) {
+                    return;
+                }
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td><input type="text" value="${escapeHtml(rec.name)}" style="padding:4px 6px;" oninput="updateTableRowField(${idx}, 'name', this.value)" placeholder="Full Name"></td>
+                    <td>
+                        <select style="padding:4px 6px;" onchange="updateTableRowField(${idx}, 'role', this.value)">
+                            <option value="resource" ${rec.role === 'resource' ? 'selected' : ''}>Resource Person</option>
+                            <option value="coordinator" ${rec.role === 'coordinator' ? 'selected' : ''}>Coordinator</option>
+                            <option value="organizer" ${rec.role === 'organizer' ? 'selected' : ''}>Organizer</option>
+                            <option value="participant" ${rec.role === 'participant' ? 'selected' : ''}>Participant</option>
+                            <option value="presenter" ${rec.role === 'presenter' ? 'selected' : ''}>Paper Presenter</option>
+                            <option value="keynote" ${rec.role === 'keynote' ? 'selected' : ''}>Keynote Speaker</option>
+                            <option value="volunteer" ${rec.role === 'volunteer' ? 'selected' : ''}>Volunteer / Committee</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" list="designation-datalist" value="${escapeHtml(rec.designation)}" 
+                               style="padding:4px 6px;" autocomplete="off" placeholder="Select or type..." 
+                               oninput="updateTableRowField(${idx}, 'designation', this.value)" 
+                               onfocus="try{this.showPicker()}catch(e){}"
+                               title="Auto-populating dropdown: select an existing value or type a new one">
+                    </td>
+                    <td>
+                        <input type="text" list="college-datalist" value="${escapeHtml(rec.college)}" 
+                               style="padding:4px 6px;" autocomplete="off" placeholder="Select or type..." 
+                               oninput="updateTableRowField(${idx}, 'college', this.value)" 
+                               onfocus="try{this.showPicker()}catch(e){}"
+                               title="Auto-populating dropdown: select an existing value or type a new one">
+                    </td>
+                    <td><input type="text" value="${escapeHtml(rec.certId || '')}" style="padding:4px 6px;" oninput="updateTableRowField(${idx}, 'certId', this.value)" placeholder="Cert ID"></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="tableDeleteRow(${idx})" title="Delete Row">&times;</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterRecipientsTable(val) {
+            populateRecipientsTable(val);
+        }
+
+        function tableDeleteRow(index) {
+            if (appState.recipients.length <= 1) {
+                alert("At least one recipient must remain.");
+                return;
+            }
+            appState.recipients.splice(index, 1);
+            if (appState.currentRecipientIndex >= appState.recipients.length) {
+                appState.currentRecipientIndex = appState.recipients.length - 1;
+            }
+            updateAutoPopulatingDatalists();
+            updateRecipientDropdown();
+            populateRecipientsTable(document.getElementById('table-search-input').value);
+            document.getElementById('total-count-badge').textContent = appState.recipients.length;
+            document.getElementById('modal-table-count').textContent = appState.recipients.length;
+        }
+
+        function exportRecipientsToCsv() {
+            let csv = "\uFEFFName,Designation,Institution,Role,CertificateID,Extra\n";
+            appState.recipients.forEach(r => {
+                csv += `"${r.name}","${r.designation}","${r.college}","${r.role}","${r.certId || ''}","${r.extra || ''}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Recipients_${appState.event.instName.replace(/[^a-zA-Z0-9]/g, '_')}.csv`;
+            link.click();
+            showToast("Exported recipients CSV file.");
+        }
+
+        // Download Excel/CSV Pre-filled Template for bulk certificate generation
+        function downloadSampleCsvTemplate() {
+            // Excel-compatible CSV with UTF-8 BOM (\uFEFF) so Microsoft Excel opens it directly without character encoding or delimiter issues
+            const bom = "\uFEFF";
+            const sampleData = [
+                ["Name", "Designation", "Institution", "Role", "CertificateID", "Extra"],
+                ["Prof. (Dr.) Arthur C. Pendelton", "Professor & Head, Dept. of Botany", "Heritage Institute of Advanced Studies", "resource", "HIAS/BOT/2026/RP-01", "Keynote Session on Microbiology"],
+                ["Dr. Jonathan R. Hayes", "Assistant Professor", "Heritage Institute of Advanced Studies", "resource", "HIAS/BOT/2026/RP-02", "Hands-on Mycology Techniques"],
+                ["Dr. Beatrice Thorne", "Assistant Professor", "Heritage Institute of Advanced Studies", "coordinator", "HIAS/BOT/2026/CR-01", "Program Coordination"],
+                ["Mr. David K. Miller", "Assistant Professor", "Heritage Institute of Advanced Studies", "resource", "HIAS/BOT/2026/RP-03", "Laboratory Safety & Protocols"],
+                ["Ms. Clara Oswald", "Research Scholar", "Heritage Institute of Advanced Studies", "organizer", "HIAS/BOT/2026/ORG-01", "Organizing Committee"],
+                ["Mr. Lucas Bennett", "Postgraduate Student", "Metropolitan Central University", "participant", "HIAS/BOT/2026/PT-01", "Active Participation"],
+                ["Ms. Fiona Gallagher", "Research Fellow", "Heritage Institute of Advanced Studies", "presenter", "HIAS/BOT/2026/PP-01", "Endophytic Fungal Diversity in Western Ghats"],
+                ["Ms. Hannah Abbott", "Research Scholar", "Greenwood National University", "participant", "HIAS/BOT/2026/PT-02", "Laboratory Practical Session"],
+                ["Mr. Oliver Wood", "M.Sc. Botany Student", "Heritage Institute of Advanced Studies", "volunteer", "HIAS/BOT/2026/VOL-01", "Student Volunteer Support"]
+            ];
+
+            let csvContent = bom + sampleData.map(row => 
+                row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(",")
+            ).join("\r\n");
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Certificate_Recipients_Template.csv";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+            showToast("📥 Template downloaded! Open in Excel, edit rows, and upload.");
+        }
+
+        /* --------------------------------------------------------------------------
+           ZOOM & CANVAS CONTROLS
+           -------------------------------------------------------------------------- */
+        function adjustZoom(delta) {
+            appState.zoom = Math.max(0.4, Math.min(1.8, appState.zoom + delta));
+            applyZoom();
+        }
+
+        function resetZoom() {
+            appState.zoom = 0.85;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const el = document.getElementById('certificates-render-container');
+            if (el) {
+                el.style.transform = `scale(${appState.zoom})`;
+                document.getElementById('zoom-level-text').textContent = `${Math.round(appState.zoom * 100)}%`;
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           PRINT & EXPORT CAPABILITIES
+           -------------------------------------------------------------------------- */
+        function triggerPrint() {
+            renderCertificate();
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+
+        // Export active certificate as high-resolution PNG using HTML5 canvas
+        function exportAsImage() {
+            const activeCard = document.querySelector('.certificate-wrapper');
+            if (!activeCard) {
+                alert("No certificate found to export.");
+                return;
+            }
+
+            showToast("Generating high-resolution PNG image...");
+
+            const clone = activeCard.cloneNode(true);
+            clone.style.transform = 'none';
+            clone.style.margin = '0';
+            clone.style.boxShadow = 'none';
+
+            const w = activeCard.offsetWidth;
+            const h = activeCard.offsetHeight;
+
+            const wrapperHtml = new XMLSerializer().serializeToString(clone);
+            const dataSvg = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+                    <foreignObject width="100%" height="100%">
+                        <div xmlns="http://www.w3.org/1999/xhtml">
+                            <style>
+                                ${getComputedStyleSheetText()}
+                            </style>
+                            ${wrapperHtml}
+                        </div>
+                    </foreignObject>
+                </svg>
+            `;
+
+            const img = new Image();
+            const svgBlob = new Blob([dataSvg], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = w * 2;
+                canvas.height = h * 2;
+                const ctx = canvas.getContext('2d');
+                ctx.scale(2, 2);
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+
+                const a = document.createElement('a');
+                const curRec = appState.recipients[appState.currentRecipientIndex];
+                const cleanName = (curRec ? curRec.name : "Certificate").replace(/[^a-zA-Z0-9]/g, '_');
+                a.download = `Certificate_${cleanName}.png`;
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+                showToast("PNG Download ready!");
+            };
+            img.src = url;
+        }
+
+        function getComputedStyleSheetText() {
+            let css = "";
+            for (let i = 0; i < document.styleSheets.length; i++) {
+                try {
+                    const rules = document.styleSheets[i].cssRules;
+                    for (let j = 0; j < rules.length; j++) {
+                        css += rules[j].cssText + "\n";
+                    }
+                } catch (e) {
+                    // Ignore cross-origin rules
+                }
+            }
+            return css;
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast-item';
+            toast.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // Initialize on DOM load
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
